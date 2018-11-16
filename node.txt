@@ -1,0 +1,10 @@
+1.异步async
+await 会返回一个 promise对象 
+const a = await new Promise((resolve, reject) => {
+  setTimeout(function () {
+    new Date().getTime()
+    resolve('a') // 返回的值
+  }, 1000)
+})
+
+2.koa中间件
