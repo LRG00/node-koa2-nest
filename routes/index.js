@@ -1,13 +1,14 @@
 const router = require('koa-router')()
 
 router.get('/', async (ctx, next) => {
+  ctx.cookies.set('ccc', Math.random())
   await ctx.render('index', {
     title: 'Hello Koa 2!'
   })
 })
 
 router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
+  ctx.body = 'koa2 string' // 页面返回字符串
 })
 
 router.get('/json', async (ctx, next) => {
@@ -25,10 +26,11 @@ router.get('/json', async (ctx, next) => {
     }, 1000)
   })
   ctx.body = {
+    cookie: ctx.cookies.get('ccc'),
     title: 'koa2 json',
     a,
     b,
-    c
+    c  // 页面返回json对象
   }
 })
 
