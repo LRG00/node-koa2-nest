@@ -8,3 +8,6 @@ const a = await new Promise((resolve, reject) => {
 })
 
 2.koa中间件
+中间件： 请求和相应都执行
+环形 next执行下一个中间件
+实现一个中间件
