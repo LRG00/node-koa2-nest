@@ -9,12 +9,18 @@ const pv = require('./middleware//middleware')
 const m1 = require('./middleware//m1')
 const m2 = require('./middleware//m2')
 const m3 = require('./middleware//m3')
+const mongoose = require('mongoose')
+const dbConfig = require('./dbs/config')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
 
 // error handler
 onerror(app)
+
+// mongoose
+mongoose.connect(dbConfig.dbs)
+mongoose.connection.on('connected', () => console.log('已启动mongo'))
 
 // middlewares
 app.use(bodyparser({
