@@ -16,3 +16,26 @@ const a = await new Promise((resolve, reject) => {
 
 4.mongoose
 
+5.redis  存储session
+mac下载 
+brew install dedis
+redis-server
+redis-cli 
+
+npm install koa-generic-session koa-redis
+
+5.1 const Redis = require('koa-redis')
+app.keys=['keys','keyskeys']
+app.use(session({
+  key:'mt', // key值
+  prefix:'mtpr', //前缀
+  store:new Redis()
+}))
+
+5.2 const Store = new Redis().client
+router.get('/fix',async function(ctx){
+  const st = await Store.hset('fix','name',Math.random())
+  ctx.body={
+    code:0
+  }
+})

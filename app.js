@@ -11,12 +11,21 @@ const m2 = require('./middleware//m2')
 const m3 = require('./middleware//m3')
 const mongoose = require('mongoose')
 const dbConfig = require('./dbs/config')
+const Redis = require('koa-redis')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
 
 // error handler
 onerror(app)
+
+// redis
+app.keys=['keys','keyskeys']
+// app.use(session({
+//   key:'mt', // key值
+//   prefix:'mtpr', //前缀
+//   store:new Redis()
+// }))
 
 // mongoose
 mongoose.connect(dbConfig.dbs)
