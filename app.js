@@ -1,4 +1,5 @@
 const Koa = require('koa')
+const path=require('path')
 const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
@@ -10,6 +11,10 @@ const m1 = require('./middleware//m1')
 const m2 = require('./middleware//m2')
 const m3 = require('./middleware//m3')
 const mongoose = require('mongoose')
+// const mysql = require('mysql')
+const staticCache = require('koa-static-cache')
+const session = require('koa-session-minimal');
+const MysqlStore = require('koa-mysql-session');
 const dbConfig = require('./dbs/config')
 const Redis = require('koa-redis')
 
@@ -28,8 +33,30 @@ app.keys=['keys','keyskeys']
 // }))
 
 // mongoose
-mongoose.connect(dbConfig.dbs)
-mongoose.connection.on('connected', () => console.log('已启动mongo'))
+// mongoose.connect(dbConfig.dbs)
+// mongoose.connection.on('connected', () => console.log('已启动mongo'))
+
+
+// session存储配置
+const sessionMysqlConfig= {
+  user: dbConfig.database.user,
+  password: dbConfig.database.password,
+  database: dbConfig.database.database,
+  host: dbConfig.database.host,
+}
+// 配置session中间件
+app.use(session({
+  key: 'USER_SID',
+  store: new MysqlStore(sessionMysqlConfig)
+}))
+
+// 缓存
+app.use(staticCache(path.join(__dirname, './public'), { dynamic: true }, {
+  maxAge: 365 * 24 * 60 * 60
+}))
+app.use(staticCache(path.join(__dirname, './images'), { dynamic: true }, {
+  maxAge: 365 * 24 * 60 * 60
+}))
 
 // middlewares
 app.use(bodyparser({
