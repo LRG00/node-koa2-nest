@@ -49,7 +49,7 @@ app.use((ctx, next) => {
 app.use(koajwt({
 secret: 'my_token'
 }).unless({
-path: [/\/api\/login/]
+path: [/login/]
 }))
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))

@@ -6,12 +6,11 @@ const pool = mysql.createPool({
   host     : '149.28.161.52',   // 数据库地址
   user     : 'root',    // 数据库用户
   password : 'as123456789',   // 数据库密码
-  database : 'test'  // 选中数据库
+  database : 'abc'  // 选中数据库
 })
 
 let query = function( sql, values ) {
   console.log(sql, values, 'sql, values')
-  console.log('sql, values,sssssssssssl, values')
   return new Promise(( resolve, reject ) => {
     pool.getConnection(function(err, connection) {
       if (err) {

@@ -1,7 +1,7 @@
 const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
-const userInfoController = require('./../controllers/user-info')
-router.prefix('/api')
-router.post('/login', userInfoController.signUp);
+const userInfoController = require('./../controllers/userLoginController')
+// router.prefix('/api')
+router.post('/login', userInfoController.signIn);
 
 module.exports = router;

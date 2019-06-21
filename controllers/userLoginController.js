@@ -1,4 +1,4 @@
-const userInfoService = require("./../services/user-info");
+const userInfoService = require("./../services/userLoginService");
 const userCode = require("./../codes/user");
 const jwt = require("jsonwebtoken");
 module.exports = {

@@ -3,7 +3,7 @@
  */
 
 const validator = require('validator')
-const userModel = require('./../models/user-info')
+const userLoginModel = require('./../models/userLoginModel')
 const userCode = require('./../codes/user')
 
 const user = {
@@ -14,7 +14,7 @@ const user = {
    * @return {object}      创建结果
    */
   async create( user ) {
-    let result = await userModel.create(user)
+    let result = await userLoginModel.create(user)
     return result
   },
 
@@ -24,7 +24,7 @@ const user = {
    * @return {object|null}      查找结果
    */
   async getExistOne( formData ) {
-    let resultData = await userModel.getExistOne({
+    let resultData = await userLoginModel.getExistOne({
       'email': formData.email,
       'name': formData.userName
     })
@@ -37,7 +37,7 @@ const user = {
    * @return {object}          登录业务操作结果
    */
   async signIn( formData ) {
-    let resultData = await userModel.getOneByUserNameAndPassword({
+    let resultData = await userLoginModel.getOneByUserNameAndPassword({
       'user_name': formData.user_name,
       'user_password': formData.user_password})
     return resultData
@@ -51,7 +51,7 @@ const user = {
    */
   async getUserInfoByUserName( userName ) {
     
-    let resultData = await userModel.getUserInfoByUserName( userName ) || {}
+    let resultData = await userLoginModel.getUserInfoByUserName( userName ) || {}
     let userInfo = {
       // id: resultData.id,
       email: resultData.email,
