@@ -11,15 +11,16 @@ const m1 = require('./middleware//m1')
 const m2 = require('./middleware//m2')
 const m3 = require('./middleware//m3')
 const mongoose = require('mongoose')
-// const mysql = require('mysql')
+const mysql = require('mysql')
 const staticCache = require('koa-static-cache')
-const session = require('koa-session-minimal');
-const MysqlStore = require('koa-mysql-session');
-const dbConfig = require('./dbs/config')
+// const session = require('koa-session-minimal');
+// const MysqlStore = require('koa-mysql-session');
+const dbConfig = require('./config.js')
 const Redis = require('koa-redis')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const api = require('./routes/api')
 
 // error handler
 onerror(app)
@@ -38,17 +39,30 @@ app.keys=['keys','keyskeys']
 
 
 // session存储配置
-const sessionMysqlConfig= {
-  user: dbConfig.database.user,
-  password: dbConfig.database.password,
-  database: dbConfig.database.database,
-  host: dbConfig.database.host,
-}
+// const sessionMysqlConfig= {
+//   user: dbConfig.database.user,
+//   password: dbConfig.database.password,
+//   database: dbConfig.database.database,
+//   host: dbConfig.database.host,
+// }
+const connection = mysql.createConnection({
+  host     : '149.28.161.52',   // 数据库地址
+  user     : 'root',    // 数据库用户
+  password : 'as123456789',   // 数据库密码
+  database : 'test'  // 选中数据库
+})
+// 执行sql脚本对数据库进行读写 
+connection.query('SELECT * FROM students',  (error, results, fields) => {
+  console.log('111',results )
+  if (error) throw error
+
+});
+
 // 配置session中间件
-app.use(session({
-  key: 'USER_SID',
-  store: new MysqlStore(sessionMysqlConfig)
-}))
+// app.use(session({
+//   key: 'USER_SID',
+//   store: new MysqlStore(sessionMysqlConfig)
+// }))
 
 // 缓存
 app.use(staticCache(path.join(__dirname, './public'), { dynamic: true }, {
@@ -85,6 +99,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(api.routes(), api.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
