@@ -14,6 +14,7 @@ const index = require('./routes/index')
 const users = require('./routes/users')
 const api = require('./routes/api')
 const login = require('./routes/login')
+const articles = require('./routes/articles')
 
 // error handler
 onerror(app)
@@ -71,6 +72,7 @@ app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(api.routes(), api.allowedMethods())
 app.use(login.routes(), login.allowedMethods())
+app.use(articles.routes(), articles.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
