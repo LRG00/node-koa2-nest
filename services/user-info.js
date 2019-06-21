@@ -37,9 +37,10 @@ const user = {
    * @return {object}          登录业务操作结果
    */
   async signIn( formData ) {
+    console.log(formData, 'formData')
     let resultData = await userModel.getOneByUserNameAndPassword({
-      'password': formData.password,
-      'name': formData.userName})
+      'gender': formData.gender,
+      'name': formData.name})
     return resultData
   },
 

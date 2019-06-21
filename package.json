@@ -11,11 +11,13 @@
   "dependencies": {
     "debug": "^2.6.3",
     "ejs": "~2.3.3",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.2.0",
     "koa-bodyparser": "^3.2.0",
     "koa-convert": "^1.2.0",
     "koa-generic-session": "^2.0.1",
     "koa-json": "^2.0.2",
+    "koa-jwt": "^3.5.1",
     "koa-logger": "^2.0.1",
     "koa-mysql-session": "0.0.2",
     "koa-onerror": "^1.2.1",

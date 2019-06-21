@@ -1,6 +1,6 @@
 const userInfoService = require('./../services/user-info')
 const userCode = require('./../codes/user')
-
+const jwt = require('jsonwebtoken');
 module.exports = {
 
   /**
@@ -47,55 +47,40 @@ module.exports = {
    * @param   {obejct} ctx 上下文对象
    */
   async signUp( ctx ) {
-    let formData = ctx.request.body
-    let result = {
-      success: false,
-      message: '',
-      data: null
-    }
-
-    let validateResult = userInfoService.validatorSignUp( formData )
-
-    if ( validateResult.success === false ) {
-      result = validateResult
-      ctx.body = result
-      return
-    }
-
-    let existOne  = await userInfoService.getExistOne(formData)
-    console.log( existOne )
-
-    if ( existOne  ) {
-      if ( existOne .name === formData.userName ) {
-        result.message = userCode.FAIL_USER_NAME_IS_EXIST
-        ctx.body = result
-        return
-      }
-      if ( existOne .email === formData.email ) {
-        result.message = userCode.FAIL_EMAIL_IS_EXIST
-        ctx.body = result
-        return
+    
+    
+    const formData = ctx.request.body;
+    let result = await userInfoService.signIn( formData )
+    console.log('eeeeeeeeeeeeeeeeeeeeeee', result)
+    // return ctx.body = data
+    if(!formData.name || !formData.gender){
+      return ctx.body = {
+        code: '000002',
+        data: null,
+        msg: '参数不合法'
       }
     }
-
-
-    let userResult = await userInfoService.create({
-      email: formData.email,
-      password: formData.password,
-      name: formData.userName,
-      create_time: new Date().getTime(),
-      level: 1,
-    })
-
-    console.log( userResult, 'xxxxxxxxx' )
-
-    if ( userResult && userResult.insertId * 1 > 0) {
-      result.success = true
-    } else {
-      result.message = userCode.ERROR_SYS
+    // const result = await userModel.findOne({
+    //   name: data.name,
+    //   password: data.password
+    // })
+    if(result !== null){
+      const token = jwt.sign({
+        name: result.name,
+        id: result.id
+      }, 'my_token', { expiresIn: '1h' });
+      return ctx.body = {
+        code: '000001',
+        data: token,
+        msg: '登录成功'
+      }
+    }else{
+      return ctx.body = {
+        code: '000002',
+        data: null,
+        msg: '用户名或密码错误'
+      }
     }
-
-    ctx.body = result
   },
 
   /**

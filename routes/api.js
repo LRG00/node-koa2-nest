@@ -6,10 +6,10 @@ const router = require('koa-router')()
 const userInfoController = require('./../controllers/user-info')
 router.prefix('/api')
 const routers = router
-  .get('/', function (ctx, next) {
+  .get('/user/getUserInfo.json', function (ctx, next) {
     ctx.body = 'this is a users response!'
   })
-  .get('/user/getUserInfo.json', userInfoController.getLoginUserInfo)
+  // .get('/user/getUserInfo.json', userInfoController.getLoginUserInfo)
   .post('/user/signIn.json', userInfoController.signIn)
   .post('/user/signUp.json', userInfoController.signUp)
  
