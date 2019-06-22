@@ -15,6 +15,8 @@ const users = require('./routes/users')
 const api = require('./routes/api')
 const login = require('./routes/login')
 const articles = require('./routes/articles')
+const tag = require('./routes/tag')
+const cate = require('./routes/cate')
 
 // error handler
 onerror(app)
@@ -73,6 +75,8 @@ app.use(users.routes(), users.allowedMethods())
 app.use(api.routes(), api.allowedMethods())
 app.use(login.routes(), login.allowedMethods())
 app.use(articles.routes(), articles.allowedMethods())
+app.use(tag.routes(), tag.allowedMethods())
+app.use(cate.routes(), cate.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
