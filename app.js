@@ -36,17 +36,17 @@ app.use(bodyparser({
 }))
 app.use(json())
 // 错误处理
-// app.use((ctx, next) => {
-//   return next().catch((err) => {
-//     console.log(err, 'pppppppppppp')
-//       if(err.status === 401){
-//           ctx.status = 401;
-//         ctx.body = 'Protected resource, use Authorization header to get access\n';
-//       }else{
-//           throw err;
-//       }
-//   })
-// })
+app.use((ctx, next) => {
+  return next().catch((err) => {
+    console.log(err, 'pppppppppppp')
+      if(err.status === 401){
+          ctx.status = 401;
+        ctx.body = 'Protected resource, use Authorization header to get access\n';
+      }else{
+          throw err;
+      }
+  })
+})
 
 app.use(koajwt({
 secret: 'my_token'
