@@ -5,7 +5,46 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>EJS Welcome to <%= title %></p>
-  </body>
+
+    <div class="header">
+      <h1>My Website</h1>
+      <p>A <b>responsive</b> website created by me.</p>
+    </div>
+    
+    <div class="navbar">
+      <a href="#" class="active">首页</a>
+      <a href="#">学习</a>
+      <a href="#">生活</a>
+      <a href="#" class="right">Link</a>
+    </div>
+    
+    <div class="row">
+      <div class="side">
+        <h2>About Me</h2>
+        <h5>Photo of me:</h5>
+        <div class="fakeimg me_img" style="height:200px;">Image</div>
+        <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+        <h3>More Text</h3>
+        <p>Lorem ipsum dolor sit ame.</p>
+        <div class="fakeimg" style="height:60px;">Image</div><br>
+        <div class="fakeimg" style="height:60px;">Image</div><br>
+        <div class="fakeimg" style="height:60px;">Image</div>
+      </div>
+      <div class="main">
+        <% articleList.forEach(function(item){%>
+          <h2><%=item.article_title %></h2>
+          <h5>标题详情, <%=item.article_date %></h5>
+          <div class="fakeimg" style="height:200px;">Image</div>
+          <p><%=item.article_content %></p>
+          <br>
+        <% }) %>
+
+      </div>
+    </div>
+    
+    <div class="footer">
+      <h2>Footer</h2>
+    </div>
+    
+    </body>
 </html>

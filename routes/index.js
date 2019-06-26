@@ -1,9 +1,14 @@
 const router = require('koa-router')()
+const articleModel = require('../models/articleModel')
 
 router.get('/', async (ctx, next) => {
-  ctx.cookies.set('ccc', Math.random())
+  // const xxx = await articleController.list()
+  
+  const xxx =await articleModel.getArticleList()
+  console.log(xxx, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
   await ctx.render('index', {
-    title: 'Hello Koa 2!'
+    title: 'Hello Koa 2!',
+    articleList: xxx
   })
 })
 
