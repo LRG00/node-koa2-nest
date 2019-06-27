@@ -66,7 +66,8 @@ app.use((ctx, next) => {
 app.use(koajwt({
 secret: 'my_token'
 }).unless({
-path: [/login/, '/']
+  // 添加不需要鉴权的接口
+path: [/login/, /post/]
 }))
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))

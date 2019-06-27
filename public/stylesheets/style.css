@@ -12,7 +12,7 @@ body {
 .header {
   padding: 80px;
   text-align: center;
-  background: #1abc9c;
+  background: #000;
   color: white;
   background-size: cover;
   background-image: url(../bg.jpg)
@@ -99,7 +99,8 @@ body {
 
 /* Footer */
 .footer {
-  padding: 20px;
+  padding: 5px;
+  font-size: 12px;
   text-align: center;
   background: #ddd;
 }
