@@ -11,6 +11,17 @@ router.get('/', async (ctx, next) => {
     articleList: xxx
   })
 })
+router.get('/index.html', async (ctx, next) => {
+  
+  const xxx =await articleModel.getArticleList()
+  await ctx.render('index', {
+    title: 'Hello Koa 2!',
+    articleList: xxx
+  })
+})
+router.get('/whisper.html', async (ctx, next) => {
+  await ctx.render('whisper')
+})
 
 router.get('/string', async (ctx, next) => {
   ctx.body = 'koa2 string' // 页面返回字符串
