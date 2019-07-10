@@ -28,7 +28,7 @@ app.use(cors({
       // if (ctx.url === '/test') {
       //     return "*"; // 允许来自所有域名请求
       // }
-      return 'http://149.28.161.252'; // 这样就能只允许 http://localhost:8080 这个域名的请求了
+      return '*'; // 这样就能只允许 http://localhost:8080 这个域名的请求了
   },
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
   maxAge: 5,
@@ -67,7 +67,7 @@ app.use(koajwt({
 secret: 'my_token'
 }).unless({
   // 添加不需要鉴权的接口
-path: [/login/, /post/, "/", "/whisper.html", "/index.html"]
+path: [/login/, /post/, "/"]
 }))
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
