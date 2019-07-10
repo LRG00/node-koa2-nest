@@ -3,7 +3,7 @@
 const mysql = require("mysql")
 
 const pool = mysql.createPool({
-  host     : '149.28.161.252',   // 数据库地址
+  host     : '120.77.239.216',   // 数据库地址
   user     : 'root',    // 数据库用户
   password : '123456',   // 数据库密码
   database : 'abc'  // 选中数据库
