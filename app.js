@@ -10,13 +10,15 @@ const koajwt = require('koa-jwt');
 require('./utils/db-util')
 const staticCache = require('koa-static-cache')
 const cors = require('koa2-cors');
-
+const koaBody = require('koa-body');
 const index = require('./routes/index')
 const users = require('./routes/users')
 const login = require('./routes/login')
 const articles = require('./routes/articles')
 const tag = require('./routes/tag')
 const cate = require('./routes/cate')
+const uploadRoutes = require('./routes/upload')
+const upload = require('./utils/upload')
 
 // error handler
 onerror(app)
@@ -45,6 +47,31 @@ app.use(staticCache(path.join(__dirname, './images'), { dynamic: true }, {
   maxAge: 365 * 24 * 60 * 60
 }))
 
+app.use(koaBody({
+  multipart: true,
+  encoding: 'gzip',
+  formidable: {
+    uploadDir: path.join(__dirname, 'public/upload'),
+    keepExtensions: true,
+    maxFieldsSize: 2 * 1024 * 1024,
+    onFileBegin: (name, file) => {
+      // console.log(file);
+      // 获取文件后缀
+      const ext = upload.getUploadFileExt(file.name);
+      // 最终要保存到的文件夹目录
+      const dirName = upload.getUploadDirName();
+      const dir = path.join(__dirname, `public/upload/${dirName}`);
+      // 检查文件夹是否存在如果不存在则新建文件夹
+      upload.checkDirExist(dir);
+      // 获取文件名称
+      const fileName = upload.getUploadFileName(ext);
+      // 重新覆盖 file.path 属性
+      file.path = `${dir}/${fileName}`;
+      app.context.uploadpath = app.context.uploadpath ? app.context.uploadpath : {};
+      app.context.uploadpath[name] = `${dirName}/${fileName}`;
+    },
+  }
+}));
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
@@ -67,7 +94,7 @@ app.use(koajwt({
 secret: 'my_token'
 }).unless({
   // 添加不需要鉴权的接口
-path: [/login/, /post/, "/"]
+path: [/login/, /post/, /upload/, "/"]
 }))
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
@@ -90,6 +117,7 @@ app.use(users.routes(), users.allowedMethods())
 app.use(login.routes(), login.allowedMethods())
 app.use(articles.routes(), articles.allowedMethods())
 app.use(tag.routes(), tag.allowedMethods())
+app.use(uploadRoutes.routes(), uploadRoutes.allowedMethods())
 app.use(cate.routes(), cate.allowedMethods())
 
 // error-handling
