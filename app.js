@@ -49,6 +49,7 @@ app.use(staticCache(path.join(__dirname, './images'), { dynamic: true }, {
 
 app.use(koaBody({
   multipart: true,
+  // 不注释的话会报 415 Unsupported Media Type
   // encoding: 'gzip',
   formidable: {
     uploadDir: path.join(__dirname, 'public/upload'),
