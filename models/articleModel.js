@@ -3,8 +3,11 @@ const dbUtils = require('./../utils/db-util')
 const article = {
 
   async getArticleList( options ) {
-    let _sql = `SELECT * from zj_articles`
+    let _sql = `SELECT * from zj_articles;`
+    let _sql1 = `SELECT COUNT(*) FROM zj_articles;`
     let result = await dbUtils.query( _sql )
+    let result1 = await dbUtils.query( _sql1 )
+    console.log(result,result1, '000000000000000')
     if ( Array.isArray(result) && result.length > 0 ) {
       // result = result[0]
       let users = await this.getName( result.user_id )
@@ -20,7 +23,7 @@ const article = {
     } else {
       result = []
     }
-    return result
+    return {result, totalCount: result1[0]['COUNT(*)'], pageNo: 1, pageSize: 20, currPage: 1, totalPage: 1} 
   },
   async getName( options ) {
     let _sql = `SELECT * from zj_users`
