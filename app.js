@@ -81,7 +81,7 @@ app.use(json())
 // 错误处理
 app.use((ctx, next) => {
   return next().catch((err) => {
-    console.log(err, 'pppppppppppp')
+    console.log(err.status, 'pppppppppppp')
       if(err.status === 401){
           ctx.status = 401;
         ctx.body = 'Protected resource, use Authorization header to get access\n';
@@ -95,7 +95,7 @@ app.use(koajwt({
 secret: 'my_token'
 }).unless({
   // 添加不需要鉴权的接口
-path: [/login/, /post/, /upload/, "/"]
+path: [/login/, /post/, /upload/, "/", "/index.html",]
 }))
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
