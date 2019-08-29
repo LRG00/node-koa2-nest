@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/me/me",
+    "pages/apply/apply",
+    "pages/statistics/statistics",
+    "pages/me/createTeam/createTeam",
+    "pages/me/organizat/organizat",
+    "pages/me/myinfo/myinfo",
+    "pages/me/kaoqinRules/kaoqinRules",
+    "pages/me/count/count",
+    "pages/me/kaoqincount/kaoqincount",
+    "pages/me/updatedep/updatedep",
+    "pages/me/updateuser/updateuser",
+    "pages/me/Invitation/Invitation",
+    "pages/me/mailList/mailList",
+    "pages/me/settime/settime",
+    "pages/me/depCheckBoxList/depCheckBoxList",
+    "pages/me/kqdetails/kqdetails",
+    "pages/me/notice/notice",
+    "pages/me/noticerange/noticerange",
+    "pages/me/mypoints/mypoints",
+    "pages/me/ranglist/ranglist",
+    "pages/apply/leaveApply/leaveApply",
+    "pages/apply/travelApply/travelApply",
+    "pages/apply/tempApply/tempApply",
+    "pages/apply/autide/autide",
+    "pages/apply/details/details",
+    "pages/apply/histroy/histroy",
+    "pages/apply/applyRecord/applyRecord",
+    "pages/apply/tongyi/tongyi",
+    "pages/apply/suppleApply/suppleApply",
+    "pages/apply/refuse/refuse",
+    "pages/apply/search/search",
+    "pages/apply/screen/screen",
+    "pages/me/qrcode/qrcode"
+  ],
+  "plugins": {
+    "calendar": {
+      "version": "1.2.1",
+      "provider": "wx23a9cef3522e4f7c"
+    }
+  },
