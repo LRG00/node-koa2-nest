@@ -5,7 +5,7 @@ router.get('/', async (ctx, next) => {
   // const xxx = await articleController.list()
   
   const xxx =await articleModel.getArticleList()
-  console.log(xxx, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+  console.log(xxx, '2222222222222222222222222222222222222222222222')
   await ctx.render('index', {
     title: 'Hello Koa 2!',
     articleList: xxx
@@ -13,12 +13,13 @@ router.get('/', async (ctx, next) => {
 })
 router.get('/index.html', async (ctx, next) => {
   
-  const xxx =await articleModel.getArticleList()
+  const articleList =await articleModel.getArticleList()
+  console.log(articleList.result, 'articleListarticleListxxxxxxxxxxxxx')
   await ctx.render('index', {
     title: 'Hello Koa 2!',
-    articleList: xxx
+    articleList
   })
-})
+}) 
 router.get('/whisper.html', async (ctx, next) => {
   await ctx.render('whisper')
 })
