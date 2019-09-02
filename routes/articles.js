@@ -1,6 +1,5 @@
 const router = require('koa-router')();
 const articleController = require('./../controllers/articleController')
-const fs = require('fs');
 router.prefix('/post')
 router.get('/list', articleController.list)
       .post('/add', articleController.add)
