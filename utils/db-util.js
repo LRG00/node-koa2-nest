@@ -1,90 +1,48 @@
-// const allConfig = require("../dbs/config.js")
-// const config = allConfig.database
 const mysql = require("mysql")
+const Sequelize = require('sequelize');
+var config = {
+  database: 'abc', // 使用哪个数据库
+  username: 'root', // 用户名
+  password: '123456', // 口令
+  host: '120.77.239.216', // 主机名
+  port: 3306 // 端口号，MySQL默认3306
+};
 
-const pool = mysql.createPool({
-  host     : '120.77.239.216',   // 数据库地址
-  user     : 'root',    // 数据库用户
-  password : '123456',   // 数据库密码
-  database : 'abc'  // 选中数据库
-})
+module.exports = new Sequelize(config.database, config.username, config.password, {
+    host: config.host,
+    dialect: 'mysql',
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 30000
+    }
+});
 
-let query = function( sql, values ) {
-  console.log(sql, values, 'sql, values---------------------------------------------------')
-  return new Promise(( resolve, reject ) => {
-    pool.getConnection(function(err, connection) {
-      if (err) {
-        resolve( err )
-      } else {
-        connection.query(sql, values, ( err, rows) => {
+// var Pet = sequelize.define('pet', {
+//   id: {
+//       type: Sequelize.STRING(50),
+//       primaryKey: true
+//   },
+//   name: Sequelize.STRING(100),
+//   gender: Sequelize.BOOLEAN,
+//   birth: Sequelize.STRING(10),
+//   createdAt: Sequelize.BIGINT,
+//   updatedAt: Sequelize.BIGINT,
+//   version: Sequelize.BIGINT
+// }, {
+//       timestamps: false
+//   });
+//   var now = Date.now();
 
-          if ( err ) {
-            reject( err )
-          } else {
-            resolve( rows )
-          }
-          connection.release()
-        })
-      }
-    })
-  })
-
-}
-
-let createTable = function( sql ) {
-  return query( sql, [] )
-}
-
-
-let findDataById = function( table,  id ) {
-  let  _sql =  "SELECT * FROM ?? WHERE id = ? "
-  return query( _sql, [ table, id, start, end ] )
-}
-
-
-let findDataByPage = function( table, keys, start, end ) {
-  let  _sql =  "SELECT ?? FROM ??  LIMIT ? , ?"
-  return query( _sql, [keys,  table,  start, end ] )
-}
-
-
-let insertData = function( table, values ) {
-  console.log(values, 'values')
-  let _sql = "INSERT INTO ?? SET ?"
-  return query( _sql, [ table, values ] )
-}
-
-
-let updateData = function( table, values, id ) {
-  let _sql = "UPDATE ?? SET ? WHERE id = ?"
-  return query( _sql, [ table, values, id ] )
-}
-
-
-let deleteDataById = function( table, id ) {
-  let _sql = "DELETE FROM ?? WHERE id = ?"
-  return query( _sql, [ table, id ] )
-}
-
-
-let select = function( table, keys ) {
-  let  _sql =  "SELECT ?? FROM ?? "
-  return query( _sql, [ keys, table ] )
-}
-
-let count = function( table ) {
-  let  _sql =  "SELECT COUNT(*) AS total_count FROM ?? "
-  return query( _sql, [ table ] )
-}
-
-module.exports = {
-  query,
-  createTable,
-  findDataById,
-  findDataByPage,
-  deleteDataById,
-  insertData,
-  updateData,
-  select,
-  count,
-}
+//   (async () => {
+//     var dog = await Pet.create({
+//         id: 'd-' + now,
+//         name: 'Odie',
+//         gender: false,
+//         birth: '2008-08-08',
+//         createdAt: now,
+//         updatedAt: now,
+//         version: 0
+//     });
+//     console.log('created: ' + JSON.stringify(dog));
+// })();

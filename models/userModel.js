@@ -13,7 +13,6 @@ const user = {
     return result
   },
   async add( options ) {
-    console.log(options, 'options')
     let result = await dbUtils.insertData( 'zj_users', options )
     return result
   },

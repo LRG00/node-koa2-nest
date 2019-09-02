@@ -13,7 +13,6 @@ module.exports = {
   // add 文章
   async add(ctx) {
     const formData = ctx.request.body;
-    console.log(formData, 'formData')
     let result = await cateService.add(formData);
     ctx.body = {
       code: "200",

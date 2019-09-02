@@ -70,7 +70,7 @@ layui.define(['mm','jquery'],function(exports){
         var event = e || event;
         event.preventDefault();
         var $listcont = $(this).parents('.form').siblings('.list-cont').length ? $(this).parents('.form').siblings('.list-cont') : $(this).parents('.form-box').siblings('.list-cont');
-        console.log($listcont)
+
         var img = $(this).parents('form').siblings('img').attr('src');
         var textarea = $(this).parents('.layui-form-item').siblings('.layui-form-text').children('.layui-input-block').children('textarea');
         var name = $(textarea).val();

@@ -1,45 +1,43 @@
-const dbUtils = require('./../utils/db-util')
+const sequelize = require("../utils/db-util");
+let Sequelize = require("sequelize");
 
-const article = {
-
-  async getArticleList( options ) {
-    let _sql = `SELECT * from zj_articles;`
-    let _sql1 = `SELECT COUNT(*) FROM zj_articles;`
-    let result = await dbUtils.query( _sql )
-    let result1 = await dbUtils.query( _sql1 )
-    console.log(result,result1, '000000000000000')
-    if ( Array.isArray(result) && result.length > 0 ) {
-      // result = result[0]
-      let users = await this.getName( result.user_id )
-      // result.user_name = Array.isArray(user) && result.length > 0 ? user[0].user_name : ''
-      result.map(item => {
-        users.map(ele => {
-          if (item.user_id === ele.user_id) {
-            item.user_name = ele.user_name
-          }
-        })
-        return item
-      })
-    } else {
-      result = []
-    }
-    return {result, totalCount: result1[0]['COUNT(*)'], pageNo: 1, pageSize: 20, currPage: 1, totalPage: 1} 
+// 创建 Model
+let Articles = sequelize.define(
+  "zj_articles",
+  {
+    article_title: { type: Sequelize.STRING },
+    article_content: { type: Sequelize.STRING },
+    user_id: { type: Sequelize.INTEGER },
+    article_id: { type: Sequelize.INTEGER, primaryKey: true },
+    article_views: { type: Sequelize.STRING },
+    article_comment_count: { type: Sequelize.INTEGER },
+    article_like_count: { type: Sequelize.INTEGER },
+    article_date: { type: Sequelize.DATE }
   },
-  async getName( options ) {
-    let _sql = `SELECT * from zj_users`
-    let result = await dbUtils.query( _sql )
-    return result
+  {
+    freezeTableName: false,
+    timestamps: false
+  }
+);
+
+// 查找用户
+module.exports = {
+  getArticleList: ({ limit, pageNo }) => {
+    return Articles.findAll({
+      limit: limit,
+      offset: pageNo
+    });
   },
-  async add( options ) {
-    console.log(options, 'options')
-    let _sql = `SELECT * from zj_users`
-    let result = await dbUtils.insertData( 'zj_articles', options )
-    return result
+  add: (params) => {
+    return Articles.create(params);
   },
+  update: (params) => {
+    return Articles.update(params, {
+        where: {article_id: params.article_id}
+    });
+  },
+  detele: (params) => {
+    return Articles.create(params);
+  },
+};
 
-
-
-}
-
-
-module.exports = article

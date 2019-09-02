@@ -14,6 +14,7 @@ const koaBody = require('koa-body');
 const index = require('./routes/index')
 const users = require('./routes/users')
 const login = require('./routes/login')
+const ErrorRoutesCatch = require('./middleware/ErrorRoutesCatch')
 const articles = require('./routes/articles')
 const tag = require('./routes/tag')
 const cate = require('./routes/cate')
@@ -26,10 +27,6 @@ onerror(app)
 // 具体参数我们在后面进行解释
 app.use(cors({
   origin: function (ctx) {
-    // return "*";
-      // if (ctx.url === '/test') {
-      //     return "*"; // 允许来自所有域名请求
-      // }
       return '*'; // 这样就能只允许 http://localhost:8080 这个域名的请求了
   },
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
@@ -79,23 +76,14 @@ app.use(bodyparser({
 }))
 app.use(json())
 // 错误处理
-app.use((ctx, next) => {
-  return next().catch((err) => {
-    console.log(err.status, 'pppppppppppp')
-      if(err.status === 401){
-          ctx.status = 401;
-        ctx.body = 'Protected resource, use Authorization header to get access\n';
-      }else{
-          throw err;
-      }
-  })
-})
+app.use(ErrorRoutesCatch())
 
 app.use(koajwt({
 secret: 'my_token'
 }).unless({
   // 添加不需要鉴权的接口
 path: [/login/, /post/, /upload/, "/", "/index.html",]
+// path: [/^\/public|\/user\/login|\/assets/]
 }))
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
@@ -109,7 +97,7 @@ app.use(async (ctx, next) => {
   const start = new Date()
   await next()
   const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+  console.log(`${ctx.method} ${ctx.url} ----------- ${ms}ms`)
 })
 
 // routes

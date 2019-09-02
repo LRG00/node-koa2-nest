@@ -5,7 +5,6 @@ router.get('/', async (ctx, next) => {
   // const xxx = await articleController.list()
   
   const xxx =await articleModel.getArticleList()
-  console.log(xxx, '2222222222222222222222222222222222222222222222')
   await ctx.render('index', {
     title: 'Hello Koa 2!',
     articleList: xxx
@@ -14,7 +13,6 @@ router.get('/', async (ctx, next) => {
 router.get('/index.html', async (ctx, next) => {
   
   const articleList =await articleModel.getArticleList()
-  console.log(articleList.result, 'articleListarticleListxxxxxxxxxxxxx')
   await ctx.render('index', {
     title: 'Hello Koa 2!',
     articleList
@@ -31,14 +29,12 @@ router.get('/string', async (ctx, next) => {
 router.get('/json', async (ctx, next) => {
   const a = await new Promise((resolve, reject) => {
     setTimeout(function () {
-      console.log(new Date().getTime(), 'aaa')
       resolve('aa') // 返回的值
     }, 1000)
   })
   const c = await 123
   const b = await new Promise((resolve, reject) => {
     setTimeout(function () {
-      console.log(new Date().getTime(), 'bbb')
       resolve('bb') // 返回的值
     }, 1000)
   })

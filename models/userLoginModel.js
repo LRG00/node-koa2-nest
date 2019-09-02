@@ -1,78 +1,45 @@
-const dbUtils = require('../utils/db-util')
+const sequelize = require("../utils/db-util");
+let Sequelize = require("sequelize");
 
-const user = {
-
-  /**
-   * 数据库创建用户
-   * @param  {object} model 用户数据模型
-   * @return {object}       mysql执行结果
-   */
-  async create ( model ) {
-    let result = await dbUtils.insertData( 'zj_users', model )
-    return result
-  },
-
-  /**
-   * 查找一个存在用户的数据
-   * @param  {obejct} options 查找条件参数
-   * @return {object|null}        查找结果
-   */
-  async getExistOne(options ) {
-    let _sql = `
-    SELECT * from zj_users
-      where email="${options.email}" or name="${options.name}"
-      limit 1`
-    let result = await dbUtils.query( _sql )
-    if ( Array.isArray(result) && result.length > 0 ) {
-      result = result[0]
-    } else {
-      result = null
+// 创建 Model
+let User = sequelize.define(
+  "zj_users",
+  {
+    // 指定映射的字段类型，字段名，例如数据库中 user 表中的 username 字段映射成 username
+    user_name: {
+      type: Sequelize.STRING
+      // field: 'user_name'
+    },
+    user_id: {
+      type: Sequelize.STRING,
+      primaryKey: true
+    },
+    // 如果不指定 field，会自动映射相同名称的字段
+    user_password: {
+      type: Sequelize.STRING
     }
-    return result
   },
+  {
+    // freezeTabelName 为 true 时不会在库中映射表时增加复数表名
+    // 该选项为 true 时，user 在映射时映射成 user，而为 false 时会映射成users
+    freezeTableName: false,
+    timestamps: false
+  }
+);
 
-  /**
-   * 根据用户名和密码查找用户
-   * @param  {object} options 用户名密码对象
-   * @return {object|null}         查找结果
-   */
-  async getOneByUserNameAndPassword( options ) {
-    console.log(options, 'options')
-    let _sql = `
-    SELECT * from zj_users
-      where user_name="${options.user_name}" and user_password="${options.user_password}"
-      limit 1`
-    let result = await dbUtils.query( _sql )
-    console.log(result, 'result')
-    if ( Array.isArray(result) && result.length > 0 ) {
-      result = result[0]
-    } else {
-      result = null
-    }
-    return result
-  },
+// 创建或同步表
+// User.sync() 会返回一个 Promise 对象
+// force = true 时会把存在的表先 drop 掉再创建，好怕怕
+let user = User.sync({ force: false });
 
-  /**
-   * 根据用户名查找用户信息
-   * @param  {string} userName 用户账号名称
-   * @return {object|null}     查找结果
-   */
-  async getUserInfoByUserName( userName ) {
-
-    let result = await dbUtils.select(
-      'zj_users',
-      ['id', 'email', 'name', 'detail_info', 'create_time', 'modified_time', 'modified_time' ])
-    if ( Array.isArray(result) && result.length > 0 ) {
-      result = result[0]
-    } else {
-      result = null
-    }
-    return result
-  },
-
-
-
-}
-
-
-module.exports = user
+// 查找用户
+module.exports = {
+  getOneByUserNameAndPassword: ({ user_name, user_password }) => {
+    return User.findOne({
+      where: {
+        user_name: user_name,
+        user_password: user_password
+      }
+    });
+  }
+};

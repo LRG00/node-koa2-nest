@@ -13,7 +13,6 @@ const cate = {
     return result
   },
   async add( options ) {
-    console.log(options, 'options')
     let result = await dbUtils.insertData( 'zj_sorts', options )
     return result
   },

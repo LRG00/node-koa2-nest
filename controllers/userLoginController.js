@@ -19,7 +19,7 @@ module.exports = {
     }
     // const result = await userModel.findOne({
     //   name: data.name,
-    //   password: data.password
+    //   password: data.password 
     // })
     if (result !== null) {
       const token = jwt.sign(
@@ -51,7 +51,6 @@ module.exports = {
   async signUp(ctx) {
     const formData = ctx.request.body;
     let result = await userInfoService.signIn(formData);
-    console.log("eeeeeeeeeeeeeeeeeeeeeee", result);
     // return ctx.body = data
     if (!formData.name || !formData.gender) {
       return (ctx.body = {
@@ -96,7 +95,6 @@ module.exports = {
     let isLogin = session.isLogin;
     let userName = session.userName;
 
-    console.log("session=", session);
 
     let result = {
       success: false,
