@@ -2,9 +2,19 @@
 const articleModel = require('./../models/articleModel.js')
 
 const article = {
-  async getList() {
-    let resultData = await articleModel.getArticleList({limit: 10, pageNo: 1})
-    return resultData
+  async getList(formData) {
+    let resultData = await articleModel.getArticleList({ pageSize: +formData.pageSize, pageNo: +formData.pageNo })
+    if (resultData.rows && resultData.rows.length) {
+      return {
+        data: resultData.rows,
+        pageNo: +formData.pageNo,
+        pageSize: +formData.pageSize,
+        totalCount: resultData.count,
+        totalPage: Math.ceil(resultData.count / (+formData.pageSize)),
+      }
+    } else {
+      return resultData
+    }
   },
   async add(formData) {
     let resultData = await articleModel.add(formData)

@@ -22,10 +22,10 @@ let Articles = sequelize.define(
 
 // 查找用户
 module.exports = {
-  getArticleList: ({ limit, pageNo }) => {
-    return Articles.findAll({
-      limit: limit,
-      offset: pageNo
+  getArticleList: ({ pageSize, pageNo }) => {
+    return Articles.findAndCountAll({
+      limit: pageSize,
+      offset: (pageNo - 1) * pageSize
     });
   },
   add: (params) => {
