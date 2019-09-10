@@ -51,7 +51,7 @@ app.use(koaBody({
   formidable: {
     // uploadDir: path.join(__dirname, 'public/upload'),
     // keepExtensions: true,
-    maxFieldsSize: 2 * 1024 * 1024 * 1024,
+    maxFieldsSize: 50 * 1024 * 1024 * 1024,
     // onFileBegin: (name, file) => {
     //   // console.log(file);
     //   // 获取文件后缀
