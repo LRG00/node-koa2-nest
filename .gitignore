@@ -1,21 +1,22 @@
+# Logs
+logs
+*.log
 .DS_Store
-node_modules/
-public/
-/dist/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
-/test/unit/coverage/
-/test/e2e/reports/
-selenium-debug.log
-yarn.lock
 
-# Editor directories and files
+npm-debug.log*
+
+# Dependency directory
+node_modules
+
+# Optional npm cache directory
+.npm
+
+#IDEs
 .idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-.history
+
+#config files
+ormconfig.json
+src/config.ts
+
+# code testing coverage
+coverage
