@@ -1,3 +1,10 @@
+/*
+ * @Author: liruigang
+ * @Date: 2019-09-27 21:04:36
+ * @LastEditors: liruigang
+ * @LastEditTime: 2019-09-28 11:44:29
+ * @UI: 
+ */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getRepository, DeleteResult } from 'typeorm';
@@ -28,7 +35,7 @@ export class ArticleService {
     const qb = await getRepository(ArticleEntity)
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.author', 'author');
-
+    console.log(qb, 'mmmmmmmmmm', ArticleEntity)
     qb.where("1 = 1");
 
     if ('tag' in query) {
@@ -42,6 +49,7 @@ export class ArticleService {
 
     if ('favorited' in query) {
       const author = await this.userRepository.findOne({username: query.favorited});
+      console.log(author, 'authorauthorauthor')
       const ids = author.favorites.map(el => el.id);
       qb.andWhere("article.authorId IN (:ids)", { ids });
     }
@@ -65,6 +73,7 @@ export class ArticleService {
 
   async findFeed(userId: number, query): Promise<ArticlesRO> {
     const _follows = await this.followsRepository.find( {followerId: userId});
+    console.log('findFeedfindFeedfindFeed')
     const ids = _follows.map(el => el.followingId);
 
     const qb = await getRepository(ArticleEntity)
@@ -125,8 +134,8 @@ export class ArticleService {
 
   async favorite(id: number, slug: string): Promise<ArticleRO> {
     let article = await this.articleRepository.findOne({slug});
-    const user = await this.userRepository.findOne(id);
-
+    const user = await this.userRepository.findOne({relations: ['articles']});
+    console.log(article, user, '000000000000000000')
     const isNewFavorite = user.favorites.findIndex(_article => _article.id === article.id) < 0;
     if (isNewFavorite) {
       user.favorites.push(article);
@@ -167,6 +176,7 @@ export class ArticleService {
     let article = new ArticleEntity();
     article.title = articleData.title;
     article.description = articleData.description;
+    article.body = articleData.body;
     article.slug = this.slugify(articleData.title);
     article.tagList = articleData.tagList || [];
     article.comments = [];

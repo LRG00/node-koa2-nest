@@ -1,3 +1,10 @@
+/*
+ * @Author: liruigang
+ * @Date: 2019-09-27 21:04:36
+ * @LastEditors: liruigang
+ * @LastEditTime: 2019-09-28 01:03:07
+ * @UI: 
+ */
 import { Get, Post, Body, Put, Delete, Param, Controller, UsePipes } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from './user.service';
@@ -45,7 +52,7 @@ export class UserController {
   @Post('users/login')
   async login(@Body('user') loginUserDto: LoginUserDto): Promise<UserRO> {
     const _user = await this.userService.findOne(loginUserDto);
-
+    console.log(_user,'bb',loginUserDto, )
     const errors = {User: ' not found'};
     if (!_user) throw new HttpException({errors}, 401);
 

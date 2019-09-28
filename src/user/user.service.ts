@@ -1,3 +1,10 @@
+/*
+ * @Author: liruigang
+ * @Date: 2019-09-27 21:04:36
+ * @LastEditors: liruigang
+ * @LastEditTime: 2019-09-28 01:34:40
+ * @UI: 
+ */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getRepository, DeleteResult } from 'typeorm';
@@ -27,7 +34,7 @@ export class UserService {
       email: loginUserDto.email,
       password: crypto.createHmac('sha256', loginUserDto.password).digest('hex'),
     };
-
+    console.log(await this.userRepository.findOne(findOneOptions), loginUserDto, 'ooo',findOneOptions)
     return await this.userRepository.findOne(findOneOptions);
   }
 
@@ -44,10 +51,10 @@ export class UserService {
 
     if (user) {
       const errors = {username: 'Username and email must be unique.'};
-      throw new HttpException({message: 'Input data validation failed', errors}, HttpStatus.BAD_REQUEST);
+      throw new HttpException({message: 'Input data validation faile cd', errors}, HttpStatus.BAD_REQUEST);
 
     }
-
+    
     // create new user
     let newUser = new UserEntity();
     newUser.username = username;
@@ -56,9 +63,10 @@ export class UserService {
     newUser.articles = [];
 
     const errors = await validate(newUser);
+    console.log(dto, errors)
     if (errors.length > 0) {
       const _errors = {username: 'Userinput is not valid.'};
-      throw new HttpException({message: 'Input data validation failed', _errors}, HttpStatus.BAD_REQUEST);
+      throw new HttpException({message: 'Inpumt data validation failed', _errors}, HttpStatus.BAD_REQUEST);
 
     } else {
       const savedUser = await this.userRepository.save(newUser);
@@ -71,7 +79,9 @@ export class UserService {
     let toUpdate = await this.userRepository.findOne(id);
     delete toUpdate.password;
     delete toUpdate.favorites;
-
+    
+    dto.password = crypto.createHmac('sha256', dto.password).digest('hex')
+    console.log(toUpdate, dto, 'vvvvvvvvvccccccssssssssssnsv')
     let updated = Object.assign(toUpdate, dto);
     return await this.userRepository.save(updated);
   }
@@ -111,6 +121,7 @@ export class UserService {
 
   private buildUserRO(user: UserEntity) {
     const userRO = {
+      id: user.id,
       username: user.username,
       email: user.email,
       bio: user.bio,

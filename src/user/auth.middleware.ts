@@ -1,3 +1,10 @@
+/*
+ * @Author: liruigang
+ * @Date: 2019-09-27 21:04:36
+ * @LastEditors: liruigang
+ * @LastEditTime: 2019-09-27 21:04:36
+ * @UI: 
+ */
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { NestMiddleware, HttpStatus, Injectable } from '@nestjs/common';
 import { ExtractJwt, Strategy } from 'passport-jwt';
