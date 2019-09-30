@@ -34,7 +34,6 @@ export class UserService {
       email: loginUserDto.email,
       password: crypto.createHmac('sha256', loginUserDto.password).digest('hex'),
     };
-    console.log(await this.userRepository.findOne(findOneOptions), loginUserDto, 'ooo',findOneOptions)
     return await this.userRepository.findOne(findOneOptions);
   }
 
@@ -63,7 +62,6 @@ export class UserService {
     newUser.articles = [];
 
     const errors = await validate(newUser);
-    console.log(dto, errors)
     if (errors.length > 0) {
       const _errors = {username: 'Userinput is not valid.'};
       throw new HttpException({message: 'Inpumt data validation failed', _errors}, HttpStatus.BAD_REQUEST);
@@ -81,7 +79,6 @@ export class UserService {
     delete toUpdate.favorites;
     
     dto.password = crypto.createHmac('sha256', dto.password).digest('hex')
-    console.log(toUpdate, dto, 'vvvvvvvvvccccccssssssssssnsv')
     let updated = Object.assign(toUpdate, dto);
     return await this.userRepository.save(updated);
   }

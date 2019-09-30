@@ -35,7 +35,6 @@ export class ArticleService {
     const qb = await getRepository(ArticleEntity)
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.author', 'author');
-    // console.log(qb, 'mmmmmmmmmm', ArticleEntity)
     qb.where("1 = 1");
 
     if ('tag' in query) {
@@ -49,7 +48,6 @@ export class ArticleService {
 
     if ('favorited' in query) {
       const author = await this.userRepository.findOne({username: query.favorited});
-      console.log(author, 'authorauthorauthor')
       const ids = author.favorites.map(el => el.id);
       qb.andWhere("article.authorId IN (:ids)", { ids });
     }
@@ -73,7 +71,6 @@ export class ArticleService {
 
   async findFeed(userId: number, query): Promise<ArticlesRO> {
     const _follows = await this.followsRepository.find( {followerId: userId});
-    console.log('findFeedfindFeedfindFeed')
     const ids = _follows.map(el => el.followingId);
 
     const qb = await getRepository(ArticleEntity)
@@ -99,8 +96,6 @@ export class ArticleService {
 
   async findOne(where): Promise<ArticleRO> {
     const article = await this.articleRepository.findOne(where, {relations: ['author']});
-    // const user = await this.userRepository.findOne(article.id, {relations: ['author']});
-    console.log('xx', article)
     return {article};
   }
 
@@ -109,7 +104,7 @@ export class ArticleService {
 
     const comment = new Comment();
     comment.body = commentData.body;
-
+    comment.author = commentData.author;
     article.comments.push(comment);
 
     await this.commentRepository.save(comment);
@@ -137,8 +132,6 @@ export class ArticleService {
   async favorite(id: number, slug: string): Promise<ArticleRO> {
     let article = await this.articleRepository.findOne({slug});
     const user = await this.userRepository.findOne(id, {relations: ['favorites']});
-
-    console.log(article, '000000000000000000',user,slug)
     const isNewFavorite = user.favorites.findIndex(_article => _article.id === article.id) < 0;
     if (isNewFavorite) {
       user.favorites.push(article);
@@ -171,12 +164,11 @@ export class ArticleService {
 
   async findComments(slug: string): Promise<CommentsRO> {
     const article = await this.articleRepository.findOne({slug},{relations: ['author', 'comments']});
-    console.log(article, 'll')
     return {comments: article.comments};
   }
 
-  async create(userId: number, articleData: CreateArticleDto): Promise<ArticleEntity> {
-
+  async create(userId: number, articleData: CreateArticleDto) {
+    const author = await this.userRepository.findOne({ where: { id: userId }, relations: ['articles'] });
     let article = new ArticleEntity();
     article.title = articleData.title;
     article.description = articleData.description;
@@ -184,19 +176,19 @@ export class ArticleService {
     article.slug = this.slugify(articleData.title);
     article.tagList = articleData.tagList || [];
     article.comments = [];
-
+    article.author = author
     const newArticle = await this.articleRepository.save(article);
 
-    const author = await this.userRepository.findOne({ where: { id: userId } });
-
+    
+    
+    console.log(newArticle)
     if (Array.isArray(author.articles)) {
       author.articles.push(article);
     } else {
       author.articles = [article];
     }
-
-    await this.userRepository.save(author);
-
+    // await this.userRepository.save(author);
+    delete newArticle.author.articles
     return newArticle;
 
   }

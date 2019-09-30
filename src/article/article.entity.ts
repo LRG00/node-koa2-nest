@@ -17,7 +17,7 @@ export class ArticleEntity {
   @Column({default: ''})
   description: string;
 
-  @Column({default: ''})
+  @Column('longtext')
   body: string;
 
   @Column({ type: 'timestamp'})
