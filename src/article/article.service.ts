@@ -2,7 +2,7 @@
  * @Author: liruigang
  * @Date: 2019-09-27 21:04:36
  * @LastEditors: liruigang
- * @LastEditTime: 2019-09-28 11:44:29
+ * @LastEditTime: 2019-09-29 23:06:02
  * @UI: 
  */
 import { Injectable } from '@nestjs/common';
@@ -35,7 +35,7 @@ export class ArticleService {
     const qb = await getRepository(ArticleEntity)
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.author', 'author');
-    console.log(qb, 'mmmmmmmmmm', ArticleEntity)
+    // console.log(qb, 'mmmmmmmmmm', ArticleEntity)
     qb.where("1 = 1");
 
     if ('tag' in query) {
@@ -98,7 +98,9 @@ export class ArticleService {
   }
 
   async findOne(where): Promise<ArticleRO> {
-    const article = await this.articleRepository.findOne(where);
+    const article = await this.articleRepository.findOne(where, {relations: ['author']});
+    // const user = await this.userRepository.findOne(article.id, {relations: ['author']});
+    console.log('xx', article)
     return {article};
   }
 
@@ -134,8 +136,9 @@ export class ArticleService {
 
   async favorite(id: number, slug: string): Promise<ArticleRO> {
     let article = await this.articleRepository.findOne({slug});
-    const user = await this.userRepository.findOne({relations: ['articles']});
-    console.log(article, user, '000000000000000000')
+    const user = await this.userRepository.findOne(id, {relations: ['favorites']});
+
+    console.log(article, '000000000000000000',user,slug)
     const isNewFavorite = user.favorites.findIndex(_article => _article.id === article.id) < 0;
     if (isNewFavorite) {
       user.favorites.push(article);
@@ -167,7 +170,8 @@ export class ArticleService {
   }
 
   async findComments(slug: string): Promise<CommentsRO> {
-    const article = await this.articleRepository.findOne({slug});
+    const article = await this.articleRepository.findOne({slug},{relations: ['author', 'comments']});
+    console.log(article, 'll')
     return {comments: article.comments};
   }
 

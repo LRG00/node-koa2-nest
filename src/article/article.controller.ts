@@ -1,3 +1,10 @@
+/*
+ * @Author: liruigang
+ * @Date: 2019-09-27 21:04:36
+ * @LastEditors: liruigang
+ * @LastEditTime: 2019-09-27 21:04:36
+ * @UI: 
+ */
 import {Get, Post, Body, Put, Delete, Query, Param, Controller} from '@nestjs/common';
 import { Request } from 'express';
 import { ArticleService } from './article.service';
@@ -33,7 +40,7 @@ export class ArticleController {
   }
 
   @Get(':slug/comments')
-  async findComments(@Param('slug') slug): Promise<CommentsRO> {
+  async findComments(@Param('slug') slug) {
     return await this.articleService.findComments(slug);
   }
 
