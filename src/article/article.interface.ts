@@ -20,13 +20,18 @@ interface ArticleData {
 export interface CommentsRO {
   comments: Comment[];
 }
+export interface pagination {
+  total: number;
+  pageSize: number;
+  current: number;
+}
 
 export interface ArticleRO {
   article: ArticleEntity;
 }
 
 export interface ArticlesRO {
-  articles: ArticleEntity[];
-  articlesCount: number;
+  list: ArticleEntity[];
+  pagination: pagination
 }
 

@@ -40,6 +40,9 @@ export class ArticleService {
     if ('tag' in query) {
       qb.andWhere("article.tagList LIKE :tag", { tag: `%${query.tag}%` });
     }
+    if ('title' in query) {
+      qb.andWhere("article.title LIKE :title", { title: `%${query.title}%` });
+    }
 
     if ('author' in query) {
       const author = await this.userRepository.findOne({username: query.author});
@@ -56,43 +59,50 @@ export class ArticleService {
 
     const articlesCount = await qb.getCount();
 
-    if ('limit' in query) {
-      qb.limit(query.limit);
+    if ('pageSize' in query) {
+      qb.limit(query.pageSize);
     }
 
-    if ('offset' in query) {
-      qb.offset(query.offset);
+    if ('currentPage' in query) {
+      qb.offset((query.currentPage - 1) * 10);
     }
 
-    const articles = await qb.getMany();
-
-    return {articles, articlesCount};
+    const list = await qb.getMany();
+    const ArticlesRO = {
+      list,
+      pagination: {
+        total: articlesCount,
+        pageSize: +query.pageSize || 10,
+        current: +query.currentPage || 1,
+      }
+    }
+    return ArticlesRO;
   }
 
-  async findFeed(userId: number, query): Promise<ArticlesRO> {
-    const _follows = await this.followsRepository.find( {followerId: userId});
-    const ids = _follows.map(el => el.followingId);
+  // async findFeed(userId: number, query): Promise<ArticlesRO> {
+  //   const _follows = await this.followsRepository.find( {followerId: userId});
+  //   const ids = _follows.map(el => el.followingId);
 
-    const qb = await getRepository(ArticleEntity)
-      .createQueryBuilder('article')
-      .where('article.authorId IN (:ids)', { ids });
+  //   const qb = await getRepository(ArticleEntity)
+  //     .createQueryBuilder('article')
+  //     .where('article.authorId IN (:ids)', { ids });
 
-    qb.orderBy('article.created', 'DESC');
+  //   qb.orderBy('article.created', 'DESC');
 
-    const articlesCount = await qb.getCount();
+  //   const articlesCount = await qb.getCount();
 
-    if ('limit' in query) {
-      qb.limit(query.limit);
-    }
+  //   if ('limit' in query) {
+  //     qb.limit(query.limit);
+  //   }
 
-    if ('offset' in query) {
-      qb.offset(query.offset);
-    }
+  //   if ('offset' in query) {
+  //     qb.offset(query.offset);
+  //   }
 
-    const articles = await qb.getMany();
+  //   const articles = await qb.getMany();
 
-    return {articles, articlesCount};
-  }
+  //   return {articles, articlesCount};
+  // }
 
   async findOne(where): Promise<ArticleRO> {
     const article = await this.articleRepository.findOne(where, {relations: ['author']});

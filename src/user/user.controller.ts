@@ -50,7 +50,7 @@ export class UserController {
 
   @UsePipes(new ValidationPipe())
   @Post('users/login')
-  async login(@Body('user') loginUserDto: LoginUserDto): Promise<UserRO> {
+  async login(@Body('user') loginUserDto: LoginUserDto, @Body('type') type) {
     const _user = await this.userService.findOne(loginUserDto);
     const errors = {User: ' not found'};
     if (!_user) throw new HttpException({errors}, 401);
@@ -58,6 +58,11 @@ export class UserController {
     const token = await this.userService.generateJWT(_user);
     const {email, username, bio, image} = _user;
     const user = {email, token, username, bio, image};
-    return {user}
+    const loginInfo = {
+      currentAuthority: "admin",
+      status: "ok",
+      type
+    }
+    return {user, ...loginInfo}
   }
 }
