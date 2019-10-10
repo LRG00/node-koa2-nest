@@ -7,6 +7,8 @@ import { Connection } from 'typeorm';
 import { ProfileModule } from './profile/profile.module';
 import { TagModule } from './tag/tag.module';
 import { RoleModule } from './role/role.module';
+import { SysUserModule } from './sysUser/sysUser.module';
+import { menuModule } from './menu/menu.module';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { RoleModule } from './role/role.module';
     UserModule,
     ProfileModule,
     TagModule,
-    RoleModule
+    RoleModule,
+    SysUserModule,
+    menuModule
   ],
   controllers: [
     AppController
