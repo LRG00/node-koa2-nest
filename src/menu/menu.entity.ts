@@ -10,7 +10,10 @@ export class menuEntity {
   name: string;
 
   @Column()
-  parentId: number;
+  key: string;
+
+  @Column()
+  parentId: string;
 
   @Column()
   parentName: string;
@@ -25,7 +28,7 @@ export class menuEntity {
   orderNum: string;
 
   @Column()
-  url: string;
+  path: string;
 
   @Column()
   perms: string;
