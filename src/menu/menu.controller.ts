@@ -25,9 +25,8 @@ export class menuController {
 
   @Get()
   async findAll(@Query() query) {
-    return await this.MailerService.example2();
+    return await this.menuService.findAll(query);
   }
-
   @Post()
   async create(@Body() Body) {
     return await this.menuService.create(Body);

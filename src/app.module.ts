@@ -9,6 +9,7 @@ import { TagModule } from './tag/tag.module';
 import { RoleModule } from './role/role.module';
 import { SysUserModule } from './sysUser/sysUser.module';
 import { menuModule } from './menu/menu.module';
+import { musicModule } from './music/music.module';
 import { WinstonModule } from 'nest-winston';
 import { HandlebarsAdapter, MailerModule } from '@nest-modules/mailer';
 
@@ -35,7 +36,8 @@ import { HandlebarsAdapter, MailerModule } from '@nest-modules/mailer';
     TagModule,
     RoleModule,
     SysUserModule,
-    menuModule
+    menuModule,
+    musicModule
   ],
   controllers: [
     AppController
