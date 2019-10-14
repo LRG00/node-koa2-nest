@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import * as path from 'path';
 
 @Controller('upload')
-export class musicController {
+export class uploadfileController {
   @Post()
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({

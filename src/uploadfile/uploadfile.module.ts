@@ -1,12 +1,12 @@
 import {Module, NestModule} from '@nestjs/common';
-import { musicController } from './music.controller';
+import { uploadfileController } from './uploadfile.controller';
 
 @Module({
   imports: [],
   providers: [],
   controllers: [
-    musicController
+    uploadfileController
   ],
   exports: []
 })
-export class musicModule {}
+export class uploadfileModule {}
