@@ -12,25 +12,11 @@ import { menuModule } from './menu/menu.module';
 import { uploadfileModule } from './uploadfile/uploadfile.module';
 import { musicModule } from './mymusic/music.module';
 import { WinstonModule } from 'nest-winston';
-import { HandlebarsAdapter, MailerModule } from '@nest-modules/mailer';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
     WinstonModule.forRoot({}),
-    MailerModule.forRoot({
-      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
-      defaults: {
-        from:'"nest-modules" <modules@nestjs.com>',
-      },
-      template: {
-        dir: __dirname + '/templates',
-        adapter: new HandlebarsAdapter(), // or new PugAdapter()
-        options: {
-          strict: true,
-        },
-      },
-    }),
     ArticleModule,
     UserModule,
     ProfileModule,

@@ -21,3 +21,4 @@ ormconfig.json
 coverage
 
 public
+dist

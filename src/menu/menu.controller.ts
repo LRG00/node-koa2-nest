@@ -5,9 +5,8 @@
  * @LastEditTime: 2019-09-27 22:15:44
  * @UI: 
  */
-import {Get, Controller, Query, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {Get, Controller, Query, Post, Body, Put, Delete } from '@nestjs/common';
 import { menuService } from './menu.service';
-import { ExampleService } from '../MailerService';
 
 import {
   ApiUseTags,
@@ -21,10 +20,11 @@ import {
 @Controller('menu')
 export class menuController {
 
-  constructor(private readonly menuService: menuService, private readonly MailerService: ExampleService) {}
+  constructor(private readonly menuService: menuService) {}
 
   @Get()
   async findAll(@Query() query) {
+    console.log('mmm')
     return await this.menuService.findAll(query);
   }
   @Post()

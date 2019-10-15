@@ -2,13 +2,12 @@ import {MiddlewareConsumer, Module, NestModule, RequestMethod} from '@nestjs/com
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from '../user/user.module';
 import { musicService } from './music.service';
-import { ExampleService } from '../MailerService';
 import { musicEntity } from './music.entity';
 import { musicController } from './music.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([musicEntity]), UserModule],
-  providers: [musicService, ExampleService],
+  providers: [musicService],
   controllers: [
     musicController
   ],
