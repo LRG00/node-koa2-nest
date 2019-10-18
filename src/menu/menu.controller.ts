@@ -2,7 +2,7 @@
  * @Author: liruigang
  * @Date: 2019-09-27 21:04:36
  * @LastEditors: liruigang
- * @LastEditTime: 2019-09-27 22:15:44
+ * @LastEditTime: 2019-10-18 20:57:37
  * @UI: 
  */
 import {Get, Controller, Query, Post, Body, Put, Delete } from '@nestjs/common';
@@ -24,7 +24,6 @@ export class menuController {
 
   @Get()
   async findAll(@Query() query) {
-    console.log('mmm')
     return await this.menuService.findAll(query);
   }
   @Post()

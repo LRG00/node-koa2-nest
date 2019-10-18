@@ -1,3 +1,10 @@
+/*
+ * @Author: liruigang
+ * @Date: 2019-10-18 17:03:13
+ * @LastEditors: liruigang
+ * @LastEditTime: 2019-10-18 17:03:13
+ * @UI: 
+ */
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 @Entity('music')
@@ -23,6 +30,9 @@ export class musicEntity {
 
   @Column()
   filename: string;
+  
+  @Column()
+  originalname: string;
 
   @Column()
   path: string;

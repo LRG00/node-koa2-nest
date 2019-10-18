@@ -1,3 +1,10 @@
+/*
+ * @Author: liruigang
+ * @Date: 2019-10-18 17:03:13
+ * @LastEditors: liruigang
+ * @LastEditTime: 2019-10-18 21:33:06
+ * @UI: 
+ */
 import { Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getRepository } from 'typeorm';
@@ -32,8 +39,10 @@ export class musicService {
 
   async create(musicData) {
     let music = new musicEntity();
+    music.author = musicData.author;
     music.fieldname = musicData.fieldname;
-    music.name = musicData.originalname;
+    music.name = musicData.name;
+    music.originalname = musicData.originalname;
     music.encoding = musicData.encoding;
     music.mimetype = musicData.mimetype;
     music.filename = musicData.filename;
