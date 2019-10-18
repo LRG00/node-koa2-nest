@@ -31,8 +31,8 @@ export class musicController {
     return await this.musicService.create(Body);
   }
   
-  @ApiOperation({ title: '修改菜单' })
-  @ApiResponse({ status: 201, description: '菜单修改成功'})
+  @ApiOperation({ title: '修改音乐' })
+  @ApiResponse({ status: 201, description: '音乐修改成功'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put()
   async update(@Body() Body) {
@@ -40,8 +40,8 @@ export class musicController {
     return this.musicService.update(Body);
   }
 
-  @ApiOperation({ title: '删除菜单' })
-  @ApiResponse({ status: 201, description: '菜单删除成功'})
+  @ApiOperation({ title: '删除音乐' })
+  @ApiResponse({ status: 201, description: '音乐删除成功'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete()
   async delete(@Body('musicId') musicId) {

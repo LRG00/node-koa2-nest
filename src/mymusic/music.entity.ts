@@ -16,10 +16,25 @@ export class musicEntity {
   photo: string;
 
   @Column()
-  type: string;
+  mimetype: string;
 
   @Column()
   url: string;
+
+  @Column()
+  filename: string;
+
+  @Column()
+  path: string;
+
+  @Column()
+  size: number;
+
+  @Column()
+  encoding: string;
+
+  @Column()
+  fieldname: string;
 
   @Column({ type: 'timestamp'})
   created: Date;

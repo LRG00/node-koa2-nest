@@ -32,14 +32,14 @@ export class musicService {
 
   async create(musicData) {
     let music = new musicEntity();
-    music.musicId = musicData.musicId;
-    music.name = musicData.name;
-    const qb = await  this.musicRepository.createQueryBuilder('music')
-    const list = await qb.getMany();
-    const filterList = list.filter(item => {
-      return musicData.parentId === item.musicId
-    })
-    music.type = musicData.type;
+    music.fieldname = musicData.fieldname;
+    music.name = musicData.originalname;
+    music.encoding = musicData.encoding;
+    music.mimetype = musicData.mimetype;
+    music.filename = musicData.filename;
+    music.url = musicData.filename;
+    music.path = musicData.path;
+    music.size = musicData.size;
     const newmusic = await this.musicRepository.save(music);
     return newmusic;
 
