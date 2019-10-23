@@ -11,6 +11,7 @@ import { SysUserModule } from './sysUser/sysUser.module';
 import { menuModule } from './menu/menu.module';
 import { uploadfileModule } from './uploadfile/uploadfile.module';
 import { musicModule } from './mymusic/music.module';
+import { editcodeModule } from './editcode/editcode.module';
 import { WinstonModule } from 'nest-winston';
 
 @Module({
@@ -25,7 +26,8 @@ import { WinstonModule } from 'nest-winston';
     SysUserModule,
     menuModule,
     uploadfileModule,
-    musicModule
+    musicModule,
+    editcodeModule
   ],
   controllers: [
     AppController
