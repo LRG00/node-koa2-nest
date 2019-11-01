@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
+import { wxappController } from './wxapp.controller';
 import { ArticleModule } from './article/article.module';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -30,7 +31,8 @@ import { WinstonModule } from 'nest-winston';
     editcodeModule
   ],
   controllers: [
-    AppController
+    AppController,
+    wxappController
   ],
   providers: []
 })
