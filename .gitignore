@@ -19,3 +19,7 @@ ormconfig.json
 
 # code testing coverage
 coverage
+
+dist
+
+public/uploads
