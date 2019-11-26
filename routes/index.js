@@ -1,11 +1,12 @@
-const router = require('koa-router')()
-const articleModel = require('../models/articleModel')
+import { controller, get, post, put, log, convert, required } from '../decorator/router'
 
-router.get('/', async (ctx, next) => {
-  ctx.body = {
-    xx: 'hello world'
+@controller('/api')
+export class indexController {
+  @get('xxx')
+  async characters (ctx, next) {
+
+    ctx.body = {
+      xxx: 'cdcdcdc'
+    }
   }
-})
-
-
-module.exports = router
+}

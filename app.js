@@ -1,55 +1,39 @@
-const Koa = require('koa')
-const path=require('path')
+
+import Koa from 'koa'
+import { resolve, join } from 'path'
+import R from 'ramda'
 const app = new Koa()
-const views = require('koa-views')
-const json = require('koa-json')
-const onerror = require('koa-onerror')
-const bodyparser = require('koa-bodyparser')
-const logger = require('koa-logger')
-const koajwt = require('koa-jwt');
-require('./utils/db-util')
-const staticCache = require('koa-static-cache')
-const cors = require('koa2-cors');
 const koaBody = require('koa-body');
-const index = require('./routes/index')
-const users = require('./routes/users')
-const login = require('./routes/login')
-const ErrorRoutesCatch = require('./middleware/ErrorRoutesCatch')
-const articles = require('./routes/articles')
-const tag = require('./routes/tag')
-const cate = require('./routes/cate')
-const uploadRoutes = require('./routes/upload')
+// const index = require('./routes/index')
+// const users = require('./routes/users')
+// const login = require('./routes/login')
+// const articles = require('./routes/articles')
+// const tag = require('./routes/tag')
+// const cate = require('./routes/cate')
+// const uploadRoutes = require('./routes/upload')
 const upload = require('./utils/upload')
 
-// error handler
-onerror(app)
-
-// 具体参数我们在后面进行解释
-app.use(cors({
-  origin: function (ctx) {
-      return '*'; // 这样就能只允许 http://localhost:8080 这个域名的请求了
-  },
-  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-  maxAge: 5,
-  credentials: true,
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-}))
-
-// 缓存
-app.use(staticCache(path.join(__dirname, './public'), { dynamic: true }, {
-  maxAge: 365 * 24 * 60 * 60
-}))
-app.use(staticCache(path.join(__dirname, './images'), { dynamic: true }, {
-  maxAge: 365 * 24 * 60 * 60
-}))
+const r = path => resolve(__dirname, path)
+const MIDDLEWARE = ['database', 'general', 'router', 'logger', 'cors']
+const useMiddleware = (app) => {
+  // 中间件的个数不定，通过 Ramda 的特性，从右往左进行函数组合，右侧函数的返回结果总是左侧函数的输入参数
+  // R.map(console.log)([1, 2, 3])
+  // MIDDLEWARE 数组交给了 R.map
+  // 分别拿到的单个数组中的值，我们可以通过 R.compose 再次进行组合。
+  return R.map(R.compose(
+    R.map(i => i(app)),
+    require,
+    i => `${r('./middleware')}/${i}`)
+  )
+}
+useMiddleware(app)(MIDDLEWARE)
 
 app.use(koaBody({
   multipart: true,
   // 不注释的话会报 415 Unsupported Media Type
   // encoding: 'gzip',
   formidable: {
-    uploadDir: path.join(__dirname, 'public/upload'),
+    uploadDir: join(__dirname, 'public/upload'),
     keepExtensions: true,
     maxFieldsSize: 2 * 1024 * 1024 * 1024,
     onFileBegin: (name, file) => {
@@ -58,7 +42,7 @@ app.use(koaBody({
       const ext = upload.getUploadFileExt(file.name);
       // 最终要保存到的文件夹目录
       const dirName = upload.getUploadDirName();
-      const dir = path.join(__dirname, `public/upload/${dirName}`);
+      const dir = join(__dirname, `public/upload/${dirName}`);
       // 检查文件夹是否存在如果不存在则新建文件夹
       upload.checkDirExist(dir);
       // 获取文件名称
@@ -70,44 +54,18 @@ app.use(koaBody({
     },
   }
 }));
-// middlewares
-app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
-}))
-app.use(json())
-// 错误处理
-app.use(ErrorRoutesCatch())
 
-app.use(koajwt({
-secret: 'my_token'
-}).unless({
-  // 添加不需要鉴权的接口
-path: [/login/, /post/, /upload/, "/", "/index.html",]
-// path: [/^\/public|\/user\/login|\/assets/]
-}))
-app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
 
-app.use(views(__dirname + '/views', {
-  extension: 'ejs'
-}))
 
-// logger
-app.use(async (ctx, next) => {
-  const start = new Date()
-  await next()
-  const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} ----------- ${ms}ms`)
-})
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
-app.use(login.routes(), login.allowedMethods())
-app.use(articles.routes(), articles.allowedMethods())
-app.use(tag.routes(), tag.allowedMethods())
-app.use(uploadRoutes.routes(), uploadRoutes.allowedMethods())
-app.use(cate.routes(), cate.allowedMethods())
+// app.use(index.routes(), index.allowedMethods())
+// app.use(users.routes(), users.allowedMethods())
+// app.use(login.routes(), login.allowedMethods())
+// app.use(articles.routes(), articles.allowedMethods())
+// app.use(tag.routes(), tag.allowedMethods())
+// app.use(uploadRoutes.routes(), uploadRoutes.allowedMethods())
+// app.use(cate.routes(), cate.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
