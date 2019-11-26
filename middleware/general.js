@@ -1,12 +1,14 @@
-import { join } from 'path'
+import { join, resolve } from 'path'
 import koaBody from 'koa-bodyparser'
 import json from 'koa-json'
 import views from 'koa-views'
-import sta from 'koa-static'
+import koaStatic from 'koa-static'
 import onerror from 'koa-onerror'
 import koajwt from 'koa-jwt'
 import staticCache from 'koa-static-cache'
 import ErrorRoutesCatch from './ErrorRoutesCatch'
+
+const r = path => resolve(__dirname, path)
 
 export const koaBodyMin = app => {
   app.use(koaBody({
@@ -18,13 +20,13 @@ export const jsonMin = app => {
 }
 // view 模板引擎
 export const viewsMin = app => {
-  app.use(views(__dirname + '/views', {
+  app.use(views(r('../views'), {
     extension: 'ejs'
   }))
 }
 // 静态资源
 export const staticMin = app => {
-  app.use(sta(__dirname + '/public'))
+  app.use(koaStatic(r('../public')))
 }
 // 错误处理
 export const errorMin = app => {
@@ -46,10 +48,10 @@ export const koajwtrMin = app => {
 // 静态资源缓存
 export const staticCacheMin = app => {
   // 缓存
-  app.use(staticCache(join(__dirname, '/public'), { dynamic: true }, {
+  app.use(staticCache(join(r('../public')), { dynamic: true }, {
     maxAge: 365 * 24 * 60 * 60
   }))
-  app.use(staticCache(join(__dirname, '/images'), { dynamic: true }, {
+  app.use(staticCache(join(r('../images')), { dynamic: true }, {
     maxAge: 365 * 24 * 60 * 60
   }))
 }
