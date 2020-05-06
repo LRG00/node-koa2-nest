@@ -2,7 +2,8 @@ const tagService = require("./../services/tagService.js");
 module.exports = {
   // 获取列表
   async list(ctx) {
-    const formData = ctx.request.body;
+    const formData = ctx.request.query;
+    console.log(formData, 'xxxxxxxxxxxxxxxxxxx')
     let result = await tagService.getList(formData);
     ctx.body = {
       code: "200",

@@ -1,25 +1,40 @@
-const dbUtils = require('./../utils/db-util')
-
-const cate = {
-
-  async getcateList( options ) {
-    let _sql = `SELECT * from zj_sorts`
-    let result = await dbUtils.query( _sql )
-    if ( Array.isArray(result) && result.length > 0 ) {
-      result = result
-    } else {
-      result = []
-    }
-    return result
+const sequelize = require("../utils/db-util");
+let Sequelize = require("sequelize");
+// 创建 Model
+let Cate = sequelize.define(
+  "zj_sorts",
+  {
+    sort_name: { type: Sequelize.STRING },
+    sort_alias: { type: Sequelize.STRING },
+    sort_description: { type: Sequelize.INTEGER },
+    parent_sort_id: { type: Sequelize.INTEGER },
   },
-  async add( options ) {
-    let result = await dbUtils.insertData( 'zj_sorts', options )
-    return result
+  {
+    freezeTableName: false,
+    timestamps: false
+  }
+);
+
+// 查找用户
+module.exports = {
+  getcateList: () => {
+    return Cate.findAndCountAll({
+      limit: 10,
+      offset: 0
+    });
   },
+  add: (params) => {
+    return Cate.create(params);
+  },
+  update: (params) => {
+    return Cate.update(params, {
+        where: {id: params.id}
+    });
+  },
+  detele: (params) => {
+    return Cate.create(params);
+  },
+};
 
 
 
-}
-
-
-module.exports = cate

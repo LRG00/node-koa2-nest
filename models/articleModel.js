@@ -24,8 +24,8 @@ let Articles = sequelize.define(
 module.exports = {
   getArticleList: ({ pageSize, pageNo }) => {
     return Articles.findAndCountAll({
-      limit: pageSize,
-      offset: (pageNo - 1) * pageSize
+      limit: 10,
+      offset: 0
     });
   },
   add: (params) => {

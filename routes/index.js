@@ -1,12 +1,12 @@
 import { controller, get, post, put, log, convert, required } from '../decorator/router'
 
-@controller('/api')
+@controller('/')
 export class indexController {
-  @get('xxx')
+  @get('/')
   async characters (ctx, next) {
-
-    ctx.body = {
-      xxx: 'cdcdcdc'
-    }
+    const result = 'xxx'
+    await ctx.render('index', {
+      result,
+    })
   }
 }

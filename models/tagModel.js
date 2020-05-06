@@ -1,25 +1,38 @@
-const dbUtils = require('./../utils/db-util')
-
-const tag = {
-
-  async gettagList( options ) {
-    let _sql = `SELECT * from zj_labels`
-    let result = await dbUtils.query( _sql )
-    if ( Array.isArray(result) && result.length > 0 ) {
-      result = result
-    } else {
-      result = []
-    }
-    return result
+const sequelize = require("../utils/db-util");
+let Sequelize = require("sequelize");
+// 创建 Model
+let Tag = sequelize.define(
+  "zj_labels",
+  {
+    label_name: { type: Sequelize.STRING },
+    label_alias: { type: Sequelize.STRING },
+    label_description: { type: Sequelize.INTEGER }
   },
-  async add( options ) {
-    let result = await dbUtils.insertData( 'zj_labels', options )
-    return result
+  {
+    freezeTableName: false,
+    timestamps: false
+  }
+);
+
+// 查找用户
+module.exports = {
+  getTagList: () => {
+    return Tag.findAndCountAll({
+      limit: 10,
+      offset: 0
+    });
   },
+  add: (params) => {
+    return Tag.create(params);
+  },
+  update: (params) => {
+    return Tag.update(params, {
+        where: {id: params.id}
+    });
+  },
+  detele: (params) => {
+    return Tag.create(params);
+  },
+};
 
 
-
-}
-
-
-module.exports = tag
