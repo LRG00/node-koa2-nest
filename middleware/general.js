@@ -37,14 +37,14 @@ export const debugErrorMin = app => {
   onerror(app)
 }
 // 添加鉴权的接口
-export const koajwtrMin = app => {
-  app.use(koajwt({
-    secret: 'my_token'
-    }).unless({
-      // 添加不需要鉴权的接口
-    path: [/login/, /post/, /upload/, "/", "/index.html",'/bg.jpg']
-    }))
-}
+// export const koajwtrMin = app => {
+//   app.use(koajwt({
+//     secret: 'my_token'
+//     }).unless({
+//       // 添加不需要鉴权的接口
+//     path: [/login/, /post/, /upload/, "/", "/index.html",'/bg.jpg']
+//     }))
+// }
 // 静态资源缓存
 export const staticCacheMin = app => {
   // 缓存

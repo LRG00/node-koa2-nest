@@ -1,7 +1,15 @@
-const router = require('koa-router')();
+import { controller, get, post, put, log, convert, required } from '../decorator/router'
 const cateController = require('./../controllers/cateController')
-router.prefix('/cate')
-router.get('/list', cateController.list)
-      .post('/add', cateController.add);
-
-module.exports = router;
+@controller('/cate')
+export class indexController {
+  @get('/list')
+  async list(ctx) {
+    let result = await cateController.list(ctx);
+    return result
+  }
+  @post('/add')
+  async add(ctx) {
+    let result = await cateController.add(ctx);
+    return result
+  }
+}
