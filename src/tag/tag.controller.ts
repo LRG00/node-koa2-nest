@@ -11,12 +11,12 @@ import { TagEntity } from './tag.entity';
 import { TagService } from './tag.service';
 
 import {
-  ApiUseTags,
+  ApiTags,
   ApiBearerAuth,
 } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiUseTags('tags')
+@ApiTags('tags')
 @Controller('tags')
 export class TagController {
 

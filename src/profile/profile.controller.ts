@@ -5,12 +5,12 @@ import { ProfileRO } from './profile.interface';
 import { User } from '../user/user.decorator';
 
 import {
-  ApiUseTags,
+  ApiTags,
   ApiBearerAuth,
 } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiUseTags('profiles')
+@ApiTags('profiles')
 @Controller('profiles')
 export class ProfileController {
 

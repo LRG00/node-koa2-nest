@@ -14,20 +14,20 @@ import { CommentsRO } from './article.interface';
 import { User } from '../user/user.decorator';
 
 import {
-  ApiUseTags,
+  ApiTags,
   ApiBearerAuth,
   ApiResponse,
   ApiOperation,
 } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiUseTags('articles')
+@ApiTags('articles')
 @Controller('articles')
 export class ArticleController {
 
   constructor(private readonly articleService: ArticleService) {}
 
-  @ApiOperation({ title: 'Get all articles' })
+  @ApiOperation({ summary: '获取所有的文章' })
   @ApiResponse({ status: 200, description: 'Return all articles.'})
   @Get()
   async findAll(@Query() query): Promise<ArticlesRO> {
@@ -44,7 +44,7 @@ export class ArticleController {
     return await this.articleService.findComments(slug);
   }
 
-  @ApiOperation({ title: 'Create article' })
+  @ApiOperation({ summary: '创建文章' })
   @ApiResponse({ status: 201, description: 'The article has been successfully created.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post()
@@ -52,7 +52,7 @@ export class ArticleController {
     return await this.articleService.create(userId, articleData);
   }
 
-  @ApiOperation({ title: 'Update article' })
+  @ApiOperation({ summary: '更新文章' })
   @ApiResponse({ status: 201, description: 'The article has been successfully updated.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':slug')
@@ -61,7 +61,7 @@ export class ArticleController {
     return this.articleService.update(params.slug, articleData);
   }
 
-  @ApiOperation({ title: 'Delete article' })
+  @ApiOperation({ summary: '删除文章' })
   @ApiResponse({ status: 201, description: 'The article has been successfully deleted.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':slug')
@@ -69,7 +69,7 @@ export class ArticleController {
     return this.articleService.delete(params.slug);
   }
 
-  @ApiOperation({ title: 'Create comment' })
+  @ApiOperation({ summary: '新增评论' })
   @ApiResponse({ status: 201, description: 'The comment has been successfully created.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post(':slug/comments')
@@ -77,7 +77,7 @@ export class ArticleController {
     return await this.articleService.addComment(slug, commentData);
   }
 
-  @ApiOperation({ title: 'Delete comment' })
+  @ApiOperation({ summary: '删除评论' })
   @ApiResponse({ status: 201, description: 'The article has been successfully deleted.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':slug/comments/:id')
@@ -86,7 +86,7 @@ export class ArticleController {
     return await this.articleService.deleteComment(slug, id);
   }
 
-  @ApiOperation({ title: 'Favorite article' })
+  @ApiOperation({ summary: '收藏文章' })
   @ApiResponse({ status: 201, description: 'The article has been successfully favorited.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post(':slug/favorite')
@@ -94,7 +94,7 @@ export class ArticleController {
     return await this.articleService.favorite(userId, slug);
   }
 
-  @ApiOperation({ title: 'Unfavorite article' })
+  @ApiOperation({ summary: '取消收藏文章' })
   @ApiResponse({ status: 201, description: 'The article has been successfully unfavorited.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':slug/favorite')
@@ -102,7 +102,7 @@ export class ArticleController {
     return await this.articleService.unFavorite(userId, slug);
   }
 
-  @ApiOperation({ title: 'Get article feed' })
+  @ApiOperation({ summary: '获取文章提要' })
   @ApiResponse({ status: 200, description: 'Return article feed.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Get('feed')

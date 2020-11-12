@@ -8,7 +8,7 @@ export class ValidationPipe implements PipeTransform<any> {
   async transform(value, metadata: ArgumentMetadata) {
 
     if (!value) {
-      throw new BadRequestException('No data submitted');
+      throw new BadRequestException('缺少指定参数');
     }
 
     const { metatype } = metadata;

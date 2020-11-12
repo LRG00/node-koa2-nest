@@ -16,12 +16,19 @@ import { User } from './user.decorator';
 import { ValidationPipe } from '../shared/pipes/validation.pipe';
 
 import {
-  ApiUseTags,
+  ApiTags,
+  ApiHeader,
+  ApiBody,
   ApiBearerAuth
 } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiUseTags('user')
+@ApiTags('user')
+@ApiHeader({
+  name: 'authoriation',
+  required: true,
+  description: '本次请求请带上token',
+ })
 @Controller()
 export class UserController {
 
@@ -33,12 +40,20 @@ export class UserController {
   }
 
   @Put('user')
+  @ApiBody({
+    description: '用户修改',
+    type: UpdateUserDto,
+  })
   async update(@User('id') userId: number, @Body('user') userData: UpdateUserDto) {
     return await this.userService.update(userId, userData);
   }
 
   @UsePipes(new ValidationPipe())
   @Post('users')
+  @ApiBody({
+    description: '用户创建',
+    type: CreateUserDto,
+  })
   async create(@Body('user') userData: CreateUserDto) {
     return this.userService.create(userData);
   }
@@ -50,7 +65,11 @@ export class UserController {
 
   @UsePipes(new ValidationPipe())
   @Post('users/login')
-  async login(@Body('user') loginUserDto: LoginUserDto): Promise<UserRO> {
+  @ApiBody({
+    description: '用户登录',
+    type: LoginUserDto,
+  })
+  async login(@Body() loginUserDto: LoginUserDto): Promise<UserRO> {
     const _user = await this.userService.findOne(loginUserDto);
     const errors = {User: ' not found'};
     if (!_user) throw new HttpException({errors}, 401);
