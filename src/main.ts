@@ -5,6 +5,7 @@ import * as helmet from 'helmet'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { logger } from './shared/middleware/logger.middleware'
 import { Logger, ValidationPipe } from '@nestjs/common'
+
 async function bootstrap() {
   const appOptions = {cors: true};
   const app = await NestFactory.create(ApplicationModule, appOptions);
@@ -30,7 +31,7 @@ async function bootstrap() {
 
   // web 漏洞, 
   app.use(helmet(), logger)
-  await app.listen(3000);
-  Logger.log(`http://localhost:${3000}`, '服务启动成功')
+  await app.listen(3001);
+  Logger.log(`http://localhost:${3001}`, '服务启动成功')
 }
 bootstrap();

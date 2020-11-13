@@ -10,7 +10,7 @@ export default registerAs('database', () => ({
   charset: process.env.DB_CHARSER,
   multipleStatements: true,
   dropSchema: false,
-  synchronize: true,
+  synchronize: false,
   // dateStrings: true,
   logging: true,
   logger: process.env.DB_LOGGER

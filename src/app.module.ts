@@ -5,14 +5,39 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { ProfileModule } from './profile/profile.module';
+import { PermModule } from './perm/perm.module';
 import { TagModule } from './tag/tag.module';
-
+import { ConfigModule, ConfigService } from '@nestjs/config' // 获取环境变量
+import appConfig from './config/index'
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
+    ConfigModule.forRoot({
+      load: appConfig,
+      isGlobal: true
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService): Promise<any> => ({
+        type: config.get('database.type'),
+        host: config.get('database.host'),
+        port: config.get('database.port'),
+        username: config.get('database.username'),
+        password: config.get('database.password'),
+        database: config.get('database.database'),
+        charset: config.get('database.charset'),
+        multipleStatements: config.get('datebase.multipleStatements'),
+        // dateStrings: config.get('database.dateStrings'),
+        entities: ['src/**/*.entity{.ts,.js}'],
+        synchronize: config.get('database.synchronize'),
+        logging: config.get('database.logging'),
+        logger: config.get('database.logger')
+      }),
+      inject: [ConfigService]
+    }),
     ArticleModule,
     UserModule,
     ProfileModule,
+    PermModule,
     TagModule
   ],
   controllers: [
