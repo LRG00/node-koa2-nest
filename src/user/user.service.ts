@@ -31,7 +31,7 @@ export class UserService {
 
   async findOne(loginUserDto: LoginUserDto): Promise<UserEntity> {
     const findOneOptions = {
-      email: loginUserDto.email,
+      username: loginUserDto.username,
       password: crypto.createHmac('sha256', loginUserDto.password).digest('hex'),
     };
     return await this.userRepository.findOne(findOneOptions);

@@ -19,22 +19,23 @@ import {
   ApiTags,
   ApiHeader,
   ApiBody,
+  ApiParam,
   ApiBearerAuth
 } from '@nestjs/swagger';
 
 @ApiBearerAuth()
 @ApiTags('user')
-@ApiHeader({
-  name: 'authoriation',
-  required: true,
-  description: '本次请求请带上token',
- })
+// @ApiHeader({
+//   name: 'authoriation',
+//   required: true,
+//   description: '本次请求请带上token',
+//  })
 @Controller()
 export class UserController {
 
   constructor(private readonly userService: UserService) {}
 
-  @Get('user')
+  @Get('user') // 自动根据token获取当前用户的信息
   async findMe(@User('email') email: string): Promise<UserRO> {
     return await this.userService.findByEmail(email);
   }
@@ -58,9 +59,14 @@ export class UserController {
     return this.userService.create(userData);
   }
 
-  @Delete('users/:slug')
+
+  @ApiParam({
+    name: 'email',
+    description: '邮箱号',
+  })
+  @Delete('users/:email')
   async delete(@Param() params) {
-    return await this.userService.delete(params.slug);
+    return await this.userService.delete(params.email);
   }
 
   @UsePipes(new ValidationPipe())

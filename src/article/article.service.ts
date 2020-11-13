@@ -15,6 +15,7 @@ import { FollowsEntity } from '../profile/follows.entity';
 import { CreateArticleDto } from './dto';
 
 import {ArticleRO, ArticlesRO, CommentsRO} from './article.interface';
+// 大小转小写
 const slug = require('slug');
 
 @Injectable()
@@ -93,7 +94,7 @@ export class ArticleService {
 
     return {articles, articlesCount};
   }
-
+  
   async findOne(where): Promise<ArticleRO> {
     const article = await this.articleRepository.findOne(where, {relations: ['author']});
     return {article};

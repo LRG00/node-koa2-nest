@@ -5,7 +5,7 @@ export class LoginUserDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  readonly email: string;
+  readonly username: string;
 
   @ApiProperty()
   @IsNotEmpty()
