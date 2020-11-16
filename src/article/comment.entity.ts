@@ -7,7 +7,7 @@
  */
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { ArticleEntity } from './article.entity';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../system/user/user.entity';
 
 @Entity()
 export class Comment {

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ArticleModule } from './article/article.module';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
+import { UserModule } from './system/user/user.module';
+import { AuthModule } from './system/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { ProfileModule } from './profile/profile.module';
-import { PermModule } from './perm/perm.module';
+import { PermModule } from './system/perm/perm.module';
 import { TagModule } from './tag/tag.module';
 import { ConfigModule, ConfigService } from '@nestjs/config' // 获取环境变量
 import appConfig from './config/index'

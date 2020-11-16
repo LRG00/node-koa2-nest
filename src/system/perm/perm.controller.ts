@@ -1,9 +1,9 @@
 import { Controller, Request, Get, UseGuards } from '@nestjs/common'
 import { PermService } from './perm.service'
 import { ApiOperation, ApiBearerAuth, ApiTags } from '@nestjs/swagger'
-import { Permissions } from '../shared/decorators/permissions.decorator'
+import { Permissions } from '../../common/decorators/permissions.decorator'
 import { AuthGuard } from '@nestjs/passport'
-import { RolesGuard } from '../shared/guards/roles.guard'
+import { RolesGuard } from '../../common/guards/roles.guard'
 import { User } from '../user/user.decorator';
 
 @ApiBearerAuth()

@@ -9,8 +9,8 @@ import {Get, Controller, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport'
 import { TagEntity } from './tag.entity';
 import { TagService } from './tag.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
-import { LocalAuthGuard } from '../auth/guards/local-auth.guard'
+import { JwtAuthGuard } from '../system/auth/guards/jwt-auth.guard'
+import { LocalAuthGuard } from '../system/auth/guards/local-auth.guard'
 import {
   ApiTags,
   ApiBearerAuth,

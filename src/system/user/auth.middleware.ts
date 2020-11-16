@@ -10,7 +10,7 @@ import { NestMiddleware, HttpStatus, Injectable } from '@nestjs/common';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { SECRET } from '../config';
+import { SECRET } from '../../config';
 import { UserService } from './user.service';
 
 @Injectable()

@@ -11,7 +11,7 @@ import { ArticleService } from './article.service';
 import { CreateArticleDto, CreateCommentDto } from './dto';
 import { ArticlesRO, ArticleRO } from './article.interface';
 import { CommentsRO } from './article.interface';
-import { User } from '../user/user.decorator';
+import { User } from '../system/user/user.decorator';
 
 import {
   ApiTags,

@@ -2,10 +2,10 @@ import {MiddlewareConsumer, Module, NestModule, RequestMethod} from '@nestjs/com
 import { ProfileController } from './profile.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProfileService } from './profile.service';
-import { UserModule } from '../user/user.module';
-import {UserEntity} from "../user/user.entity";
+import { UserModule } from '../system/user/user.module';
+import {UserEntity} from "../system/user/user.entity";
 import {FollowsEntity} from "./follows.entity";
-import {AuthMiddleware} from "../user/auth.middleware";
+import {AuthMiddleware} from "../system/user/auth.middleware";
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, FollowsEntity]), UserModule],

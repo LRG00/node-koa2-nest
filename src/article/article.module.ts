@@ -3,11 +3,11 @@ import { ArticleController } from './article.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArticleEntity } from './article.entity';
 import { Comment } from './comment.entity';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../system/user/user.entity';
 import { FollowsEntity } from '../profile/follows.entity';
 import { ArticleService } from './article.service';
-import { AuthMiddleware } from '../user/auth.middleware';
-import { UserModule } from '../user/user.module';
+import { AuthMiddleware } from '../system/user/auth.middleware';
+import { UserModule } from '../system/user/user.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ArticleEntity, Comment, UserEntity, FollowsEntity]), UserModule],

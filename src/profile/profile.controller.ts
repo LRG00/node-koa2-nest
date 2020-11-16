@@ -2,7 +2,7 @@ import { Get, Post, Delete, Param, Controller } from '@nestjs/common';
 import { Request } from 'express';
 import { ProfileService } from './profile.service';
 import { ProfileRO } from './profile.interface';
-import { User } from '../user/user.decorator';
+import { User } from '../system/user/user.decorator';
 
 import {
   ApiTags,

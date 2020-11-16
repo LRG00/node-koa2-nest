@@ -13,7 +13,7 @@ import { UserRO } from './user.interface';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { User } from './user.decorator';
-import { ValidationPipe } from '../shared/pipes/validation.pipe';
+import { ValidationPipe } from '../../common/pipes/validation.pipe';
 
 import {
   ApiTags,
