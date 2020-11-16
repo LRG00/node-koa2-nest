@@ -1,0 +1,34 @@
+import { Injectable, ExecutionContext } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Reflector } from '@nestjs/core'
+console.log('1111112221111')
+@Injectable()
+
+export class JwtAuthGuard extends AuthGuard('jwt') {
+  constructor() {
+    super();
+    
+
+  }
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const req: any = context.switchToHttp().getRequest()
+    const user = req['user']
+    return false
+    // if (!user) return false
+    // // 当前请求所需权限
+    // const currentPerm = this.reflector.get<string>('permissions', context.getHandler())
+    // // 空， 标识不需要权限
+    // if (!currentPerm) return true
+    // // 根据用户id 查询所拥有的权限
+    // const permList = await this.permSerivce.findUserPerms(user.id)
+    // const perms: string[] = []
+    // for (let i = 0, len = permList.length; i < len; i++) {
+    //   permList[i]['m_perms'].indexOf(',') > -1 ? perms.push(...permList[i]['m_perms'].split(',')) : perms.push(permList[i]['m_perms'])
+    // }
+    // // currentPerm 有值，则需对比该用户所有权限
+    // // return perms.includes(currentPerm)
+    // // nestjs 原生 ForbiddenException 英文，不符合，所以抛出自定义异常
+    // if (perms.includes(currentPerm)) return true
+    // throw new ForbiddenException()
+  }
+}

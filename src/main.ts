@@ -31,7 +31,7 @@ async function bootstrap() {
 
   // web 漏洞, 
   app.use(helmet(), logger)
-  await app.listen(3001);
-  Logger.log(`http://localhost:${3001}`, '服务启动成功')
+  await app.listen(3000);
+  Logger.log(`http://localhost:${3000}`, '服务启动成功')
 }
 bootstrap();
