@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, BeforeInsert} from "typeorm";
 
-@Entity('customer')
-export class CustomerEntity {
+@Entity('track')
+export class TrackEntity {
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,13 +9,11 @@ export class CustomerEntity {
   @Column()
   name: string;
   @Column()
-  customerType: number;
+  type: number;
   @Column()
-  customerAddr: string;
+  addr: string;
   @Column({ type: 'timestamp'})
   created: Date;
-  @Column()
-  tel: string;
   @Column()
   remark: string;
 

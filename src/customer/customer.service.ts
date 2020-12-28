@@ -10,26 +10,39 @@ export class CustomerService {
     private readonly tagRepository: Repository<CustomerEntity>
   ) {}
 
-  async findAll(): Promise<any> {
-    const qb = await getRepository(CustomerEntity)
-      .createQueryBuilder('customer');
-    qb.where("1 = 1");
-    const list = await this.tagRepository.find();
+  async findAll(query): Promise<any> {
+    const qb = await getRepository(CustomerEntity).createQueryBuilder('customer');
+    let list = await this.tagRepository.find();
+    
+    if ('name' in query) {
+      const one = await qb.where("customer.name = :name", { name: query.name }).getOne()
+      list = one ? [one] : [];
+    }
+    
     const customersCount = await qb.getCount();
     return {data: list, count: customersCount, code: 0};
   }
   async create(data: any) {
     let customer = new CustomerEntity();
-    customer.projectName = data.projectName;
-    customer.projectType = data.projectType;
-    customer.projectAddr = data.projectAddr;
-    customer.amount = data.amount;
-    customer.contacts = data.contacts;
+    customer.name = data.name;
+    customer.customerType = data.customerType;
+    customer.customerAddr = data.customerAddr;
+    customer.created = data.created;
     customer.tel = data.tel;
     customer.remark = data.remark;
     const newcustomer = await this.tagRepository.save(customer);
     return newcustomer;
 
   }
+  async update(body: any): Promise<any> {
+    body.id = +body.id
+    let toUpdate = await this.tagRepository.findOne({ id: body.id });
+    let updated = Object.assign(toUpdate, body);
+    const article = await this.tagRepository.save(updated);
+    return {article};
+  }
+  async delete(body): Promise<any> {
+    await this.tagRepository.delete(body.id);
 
+  }
 }

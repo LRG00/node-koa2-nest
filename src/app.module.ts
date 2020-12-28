@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ArticleModule } from './article/article.module';
 import { CustomerModule } from './customer/customer.module';
+import { CommunityModule } from './community/community.module';
+import { TrackModule } from './track/track.module';
 import { UserModule } from './system/user/user.module';
 import { AuthModule } from './system/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -38,6 +40,8 @@ import appConfig from './config/index'
     }),
     ArticleModule,
     CustomerModule,
+    CommunityModule,
+    TrackModule,
     UserModule,
     AuthModule,
     ProfileModule,

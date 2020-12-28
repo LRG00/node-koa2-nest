@@ -7,8 +7,8 @@
  */
 import {Get,Post, Controller, Body, Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport'
-import { CustomerEntity } from './customer.entity';
-import { CustomerService } from './customer.service';
+import { CommunityEntity } from './community.entity';
+import { CommunityService } from './community.service';
 import { JwtAuthGuard } from '../system/auth/guards/jwt-auth.guard'
 import { LocalAuthGuard } from '../system/auth/guards/local-auth.guard'
 import {
@@ -18,30 +18,30 @@ import {
 } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiTags('customer')
-@Controller('customers')
-export class CustomerController {
+@ApiTags('community')
+@Controller('community')
+export class CommunityController {
 
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(private readonly communityService: CommunityService) {}
 
   @Get()
   async findAll(@Query() query) {
-    return await this.customerService.findAll(query)
+    return await this.communityService.findAll(query)
   }
   @Post('delete')
   async delete(@Body() body) {
-    return await this.customerService.delete(body)
+    return await this.communityService.delete(body)
   }
   @Post('update')
-  async update(@Body() data: any) {
-    return await this.customerService.update(data)
+  async update(@Body() body) {
+    return await this.communityService.update(body)
   }
   @Post('add')
   @ApiBody({
-    description: '客户创建'
+    description: '小区创建'
   })
   async create(@Body()  data: any) {
-    return this.customerService.create(data);
+    return this.communityService.create(data);
   }
 
 }
