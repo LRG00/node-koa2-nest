@@ -13,10 +13,13 @@ export class CustomerService {
   async findAll(query): Promise<any> {
     const qb = await getRepository(CustomerEntity).createQueryBuilder('customer');
     let list = await this.tagRepository.find();
-    
+    console.log(query, 'queryqueryqueryquery')
     if ('name' in query) {
-      const one = await qb.where("customer.name = :name", { name: query.name }).getOne()
-      list = one ? [one] : [];
+      if (query.name) {
+        const one = await qb.where("customer.name = :name", { name: query.name }).getOne()
+        list = one ? [one] : [];
+      }
+
     }
     
     const customersCount = await qb.getCount();
