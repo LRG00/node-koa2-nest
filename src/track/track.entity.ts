@@ -9,9 +9,11 @@ export class TrackEntity {
   @Column()
   name: string;
   @Column()
-  type: number;
+  trackType: number;
   @Column()
-  addr: string;
+  trackAddr: string;
+  @Column()
+  num: number;
   @Column({ type: 'timestamp'})
   created: Date;
   @Column()

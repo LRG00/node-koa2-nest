@@ -9,12 +9,13 @@ export class CommunityEntity {
   @Column()
   name: string;
   @Column()
-  type: number;
+  communityType: number;
   @Column()
-  addr: string;
+  tel: number;
+  @Column()
+  communityAddr: string;
   @Column({ type: 'timestamp'})
   created: Date;
   @Column()
   remark: string;
-
 }
