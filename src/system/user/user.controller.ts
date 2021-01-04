@@ -44,7 +44,7 @@ export class UserController {
     description: '用户修改',
     type: UpdateUserDto,
   })
-  async update(@User('id') userId: number, @Body('user') userData: UpdateUserDto) {
+  async update(@User('id') userId: number, @Body() userData: UpdateUserDto) {
     return await this.userService.update(userId, userData);
   }
 
