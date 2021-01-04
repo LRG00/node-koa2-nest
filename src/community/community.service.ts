@@ -22,6 +22,26 @@ export class CommunityService {
     }
     
     const communityCount = await qb.getCount();
+    let createTime: any = ''
+    let communityTypeName: any = ''
+    var obj = {
+      1: '未拿钥匙的小区',
+      2: '即将拿钥匙的小区',
+      3: '正在装修的小区',
+      4: '装修接近尾声的小区',
+      5: '装修结束的小区',
+      6: '旧房改造的小区',
+      7: '其他',
+    }
+    list = list.map(item => {
+      if (item.created) {
+        createTime = new Date(+new Date(new Date(item.created).toJSON()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+      }
+      if (item.communityType) {
+        communityTypeName = obj[item.communityType]
+      }
+      return {...item, createTime, communityTypeName}
+    })
     return {data: list, count: communityCount, code: 0};
   }
   async create(data: any) {

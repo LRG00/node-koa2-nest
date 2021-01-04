@@ -13,7 +13,6 @@ import { UserRO } from './user.interface';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { User } from './user.decorator';
-import { ValidationPipe } from '../../common/pipes/validation.pipe';
 
 import {
   ApiTags,
@@ -49,7 +48,6 @@ export class UserController {
     return await this.userService.update(userId, userData);
   }
 
-  @UsePipes(new ValidationPipe())
   @Post('users')
   @ApiBody({
     description: '用户创建',
@@ -69,7 +67,6 @@ export class UserController {
     return await this.userService.delete(params.email);
   }
 
-  @UsePipes(new ValidationPipe())
   @Post('users/login')
   @ApiBody({
     description: '用户登录',

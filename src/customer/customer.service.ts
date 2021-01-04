@@ -23,6 +23,24 @@ export class CustomerService {
     }
     
     const customersCount = await qb.getCount();
+    let createTime: any = ''
+    let customerTypeName: any = ''
+    var obj = {
+      1: '主动咨询客户',
+      2: '老客户转介绍',
+      3: '公司电话营销',
+      4: '业务员扫楼带来的客户',
+      5: '其他渠道客户',
+    }
+    list = list.map(item => {
+      if (item.created) {
+        createTime = new Date(+new Date(new Date(item.created).toJSON()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+      }
+      if (item.customerType) {
+        customerTypeName = obj[item.customerType]
+      }
+      return {...item, createTime, customerTypeName}
+    })
     return {data: list, count: customersCount, code: 0};
   }
   async create(data: any) {

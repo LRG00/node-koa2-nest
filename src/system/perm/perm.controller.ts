@@ -1,9 +1,7 @@
 import { Controller, Request, Get, UseGuards } from '@nestjs/common'
 import { PermService } from './perm.service'
 import { ApiOperation, ApiBearerAuth, ApiTags } from '@nestjs/swagger'
-import { Permissions } from '../../common/decorators/permissions.decorator'
 import { AuthGuard } from '@nestjs/passport'
-import { RolesGuard } from '../../common/guards/roles.guard'
 import { User } from '../user/user.decorator';
 
 @ApiBearerAuth()
@@ -15,7 +13,6 @@ export class PermController {
 
   @Get('perm')
   @ApiOperation({ summary: '登录之后，查询用户所有菜单按钮权限' })
-  @Permissions('')
   async getFrontEndPerm(@User('id') userId: number,) {
     const perms = await this.permService.findUserPerms(userId)
     return {

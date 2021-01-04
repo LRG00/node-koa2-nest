@@ -22,6 +22,27 @@ export class TrackService {
     }
     
     const trackCount = await qb.getCount();
+    let createTime: any = ''
+    let trackTypeName: any = ''
+    var obj = {
+      1: '未拿钥匙的客户',
+      2: '跟踪阶段',
+      3: '未量房客户',
+      4: '已量房报价客户',
+      5: '准备签约的客户',
+      6: '已与其他公司签约的客户',
+      7: '暂时不考虑装修的客户',
+      8: '其他情况',
+    }
+    list = list.map(item => {
+      if (item.created) {
+        createTime = new Date(+new Date(new Date(item.created).toJSON()) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+      }
+      if (item.trackType) {
+        trackTypeName = obj[item.trackType]
+      }
+      return {...item, createTime, trackTypeName}
+    })
     return {data: list, count: trackCount, code: 0};
   }
   async create(data: any) {
